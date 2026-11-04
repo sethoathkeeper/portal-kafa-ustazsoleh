@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portal Pembelajaran KAFA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fredoka:wght@500;600;700&family=Lilita+One&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#16306b;--green:#2f8f5b;--green-d:#1f6b42;--yellow:#ffd95a;--pink:#ffc2dc;--pink-d:#e0679f;--blue:#cfe6ff;--blue-d:#3b82d6;--ok:#1f9d55;--okbg:#d6f5e1;--bad:#d63a3a;--badbg:#ffdede;--ink:#1d2433;--line:#bcd3ee;
+--night:#070b24;--night2:#141a4a;--neon:#39ff6a;--hot:#ff5a6e;--game:'Lilita One','Fredoka',system-ui,sans-serif}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:'Fredoka',system-ui,sans-serif;font-weight:600;font-size:1.08rem;color:var(--ink);min-height:100vh;
+background:radial-gradient(ellipse at 50% -10%,#2a2f86 0%,var(--night2) 40%,var(--night) 100%) fixed;background-color:var(--night);padding:env(safe-area-inset-top,0) 0 40px;overflow-x:hidden}
+h1,h2,h3{font-family:var(--game);font-weight:400;font-style:normal;color:var(--navy);margin:0;letter-spacing:.02em}
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:18px 16px 16px}
+button{font-family:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:4px solid #fff;outline-offset:3px}
+
+/* ---------- Langit malam: bintang & blok terapung ---------- */
+.sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.star{position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;box-shadow:0 0 6px 1px rgba(255,255,255,.8);animation:twinkle 2.4s ease-in-out infinite}
+.star.big{width:5px;height:5px}
+.star.plus{width:14px;height:14px;background:none;box-shadow:none;border-radius:0}
+.star.plus:before,.star.plus:after{content:"";position:absolute;background:#fff;box-shadow:0 0 8px #fff}
+.star.plus:before{left:6px;top:0;width:2px;height:14px}.star.plus:after{top:6px;left:0;height:2px;width:14px}
+@keyframes twinkle{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1.15)}}
+.blk{position:absolute;width:var(--s,56px);height:var(--s,56px);animation:float 6s ease-in-out infinite;
+background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6px 6px 0 rgba(255,255,255,.18),0 0 0 3px #000,0 10px 24px rgba(0,0,0,.5);image-rendering:pixelated}
+.blk.grass{background:linear-gradient(#4cc53a 0 30%,#3a9a2b 30% 38%,#8a5a34 38%);}
+.blk.grass:after{content:"";position:absolute;inset:0;background:
+ linear-gradient(90deg,transparent 20%,rgba(0,0,0,.18) 20% 32%,transparent 32% 60%,rgba(0,0,0,.18) 60% 72%,transparent 72%) 0 70%/100% 14% no-repeat}
+.blk.tnt{background:linear-gradient(#d33 0 35%,#eee 35% 65%,#d33 65%)}
+.blk.tnt:after{content:"TNT";position:absolute;inset:0;display:grid;place-items:center;font:400 calc(var(--s,56px)*.28) var(--game);color:#222}
+.blk.dia{background:#2fd6e6;background-image:linear-gradient(45deg,#1aa3b5 25%,transparent 25% 75%,#1aa3b5 75%),linear-gradient(45deg,#1aa3b5 25%,transparent 25% 75%,#1aa3b5 75%);background-size:50% 50%;background-position:0 0,25% 25%}
+.blk.gold{background:#ffcc33;background-image:linear-gradient(90deg,transparent 40%,#e0a800 40% 60%,transparent 60%),linear-gradient(transparent 40%,#e0a800 40% 60%,transparent 60%)}
+.blk.robo{--c:#ff3d8a;border-radius:4px}
+.blk.robo:after{content:"";position:absolute;left:22%;top:30%;width:18%;height:18%;background:#111;box-shadow:calc(var(--s,56px)*.32) 0 0 #111,calc(var(--s,56px)*.05) calc(var(--s,56px)*.26) 0 -1px #111,calc(var(--s,56px)*.16) calc(var(--s,56px)*.26) 0 -1px #111,calc(var(--s,56px)*.27) calc(var(--s,56px)*.26) 0 -1px #111}
+@keyframes float{0%,100%{transform:translateY(0) rotate(var(--r,8deg))}50%{transform:translateY(-22px) rotate(calc(var(--r,8deg)*-1))}}
+@media(prefers-reduced-motion:reduce){.star,.blk,.dbtn.boing{animation:none!important}}
+
+/* ---------- Tajuk ---------- */
+.hero{display:flex;align-items:center;gap:14px;margin:10px 0 20px}
+.hero svg{flex:none;width:90px;height:auto;filter:drop-shadow(0 0 14px rgba(120,160,255,.6))}
+.hero h1{font-size:clamp(2rem,7vw,3.4rem);line-height:1.02;color:#ffe14d;
+ text-shadow:0 3px 0 #b8560f,0 6px 0 #5a1f00,0 0 22px rgba(255,200,60,.55);-webkit-text-stroke:1px #5a1f00}
+.hero .oleh{font-family:var(--game);font-style:normal;font-weight:400;font-size:clamp(1.25rem,4.2vw,1.9rem);line-height:1.1;letter-spacing:.08em;color:#fff;margin:8px 0 0;text-shadow:0 3px 0 #1b1f5e,0 0 14px rgba(140,170,255,.8)}
+.hero p{margin:8px 0 0;font-family:var(--game);font-weight:400;font-size:clamp(1rem,3.2vw,1.2rem);color:#9fe7ff;letter-spacing:.03em}
+
+/* ---------- Butang Darjah (game) ---------- */
+.dgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(min-width:620px){.dgrid{grid-template-columns:repeat(3,1fr)}}
+.dbtn{--c:#ff2e4d;--d:#9e0f25;--t:#fff;position:relative;border:4px solid #000;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.35) 0 12%,transparent 45%),var(--c);color:var(--t);
+ font-family:var(--game);font-weight:400;font-size:clamp(1.5rem,5vw,2rem);letter-spacing:.03em;padding:20px 8px 18px;line-height:1.1;
+ box-shadow:0 8px 0 var(--d),0 8px 0 4px #000,0 0 22px var(--c);text-shadow:0 3px 0 rgba(0,0,0,.45);transition:transform .08s,box-shadow .08s,filter .15s}
+.dbtn .ic{display:block;font-size:2.2rem;margin-bottom:4px;text-shadow:none}
+.dbtn[data-d="1"]{--c:#ff2e4d;--d:#9e0f25}
+.dbtn[data-d="2"]{--c:#ff8a1f;--d:#a34a00}
+.dbtn[data-d="3"]{--c:#ffd400;--d:#a37f00;--t:#2a1a00}
+.dbtn[data-d="4"]{--c:#39ff6a;--d:#0f9a35;--t:#04310f}
+.dbtn[data-d="5"]{--c:#1fa2ff;--d:#0656a8}
+.dbtn[data-d="6"]{--c:#d04bff;--d:#7a1aa3;background:linear-gradient(180deg,rgba(255,255,255,.35) 0 12%,transparent 45%),linear-gradient(135deg,#a63dff,#ff4fd8)}
+.dbtn[data-d="3"],.dbtn[data-d="4"]{text-shadow:0 2px 0 rgba(255,255,255,.5)}
+.dbtn:hover{filter:brightness(1.08)}
+.dbtn:active{transform:translateY(6px) scale(.97);box-shadow:0 2px 0 var(--d),0 2px 0 4px #000,0 0 12px var(--c);filter:brightness(.8)}
+.dbtn.sel{filter:brightness(.82);outline:4px solid #fff;outline-offset:3px}
+.dbtn.boing{animation:boing .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes boing{0%{transform:scale(1)}25%{transform:translateY(6px) scale(.9,.86)}55%{transform:translateY(-10px) scale(1.06,1.08)}80%{transform:translateY(2px) scale(.98)}100%{transform:none}}
+
+/* ---------- Kotak kod rahsia ---------- */
+.kodbox{margin-top:28px;background:linear-gradient(180deg,#1d2366,#10144a);border:4px solid #000;border-radius:22px;padding:18px;
+ box-shadow:0 0 0 3px var(--neon),0 0 26px rgba(57,255,106,.45),0 10px 0 #000}
+.kodbox h2{font-size:clamp(1.2rem,4.2vw,1.7rem);line-height:1.2;margin-bottom:10px;color:#fff;text-shadow:0 3px 0 #000}
+.kodsel{font-family:var(--game);font-size:1.25rem;color:var(--neon);margin:0 0 10px;text-shadow:0 0 10px rgba(57,255,106,.6)}
+.kodrow{display:flex;gap:10px;align-items:stretch}
+.kodrow input{flex:1;min-width:0;font-family:var(--game);font-size:1.4rem;padding:14px;border:4px solid #000;border-radius:14px;text-transform:uppercase;letter-spacing:.06em;background:#fff;color:#111;box-shadow:inset 0 4px 0 rgba(0,0,0,.15)}
+.kodrow input::placeholder{color:#8a8fa8}
+.kodrow .btn{flex:none;font-size:1.35rem}
+.kodbox .err{color:var(--hot);font-family:var(--game);font-size:1.25rem;text-shadow:0 2px 0 #000}
+
+/* ---------- Komponen umum ---------- */
+.btn{border:3px solid #000;border-radius:16px;padding:14px 20px;font-family:var(--game);font-size:1.2rem;font-weight:400;letter-spacing:.03em;background:#2ecc40;color:#fff;box-shadow:0 5px 0 #157a22,0 5px 0 3px #000;text-shadow:0 2px 0 rgba(0,0,0,.4);transition:transform .08s,box-shadow .08s,filter .15s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #157a22,0 1px 0 3px #000;filter:brightness(.85)}
+.btn.alt{background:#ffd400;color:#2a1a00;box-shadow:0 5px 0 #a37f00,0 5px 0 3px #000;text-shadow:none}
+.btn.ghost{background:#fff;color:#141a4a;box-shadow:0 5px 0 #8a8fa8,0 5px 0 3px #000;text-shadow:none}
+.btn:disabled{opacity:.45}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab{flex:1;border:3px solid #000;background:#252c78;color:#fff;border-radius:14px;padding:12px 6px;font-family:var(--game);font-size:1.1rem;box-shadow:0 4px 0 #000}
+.tab.on{background:#ffd400;color:#2a1a00}
+.notice{background:#fff6c7;border:3px solid #000;border-radius:16px;padding:10px 14px;font-family:var(--game);font-size:1.2rem;text-align:center;color:#6b4500;margin-bottom:14px}
+.notice.closed{background:var(--badbg);color:var(--bad)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card{background:#fff;border:4px solid #000;border-radius:20px;padding:16px;box-shadow:0 0 0 3px #1fa2ff,0 8px 0 #000;display:flex;flex-direction:column;gap:8px}
+.card h3{font-size:1.3rem;line-height:1.2}
+.tag{align-self:flex-start;background:#ffd400;color:#2a1a00;font-weight:700;border:2px solid #000;border-radius:99px;padding:3px 12px;font-size:.9rem}
+.due{font-weight:700;color:#7a4b00}
+.title{font-size:clamp(1.45rem,4.8vw,2.1rem);line-height:1.15;color:#fff;text-shadow:0 3px 0 #000}
+.sub{font-weight:700;color:#9fe7ff;margin:6px 0 12px;font-size:1.1rem}
+.panel{background:#fff;border:4px solid #000;border-radius:18px;padding:14px;margin-bottom:14px;box-shadow:0 6px 0 #000}
+.panel label{display:block;font-family:var(--game);font-size:1.15rem;margin-bottom:4px;color:var(--navy)}
+.panel input{width:100%;font:inherit;font-size:1.2rem;padding:12px;border:3px solid #000;border-radius:12px;margin-bottom:10px}
+.kelas{display:inline-block;background:#2ecc40;color:#fff;font-family:var(--game);border:2px solid #000;border-radius:99px;padding:4px 16px;margin-bottom:10px}
+.err{color:var(--hot);font-weight:700;min-height:1.3em}
+.panel .err,.audio .err{color:var(--bad)}
+.guide{background:#fff6c7;border:3px dashed #000;border-radius:14px;padding:10px 12px;font-weight:700;margin-bottom:12px}
+.q{background:#fff;border:4px solid #000;border-radius:18px;padding:12px;margin-bottom:14px}
+.q.ok{box-shadow:0 0 0 3px var(--ok)}.q.no{box-shadow:0 0 0 3px var(--bad)}
+.qh{display:flex;gap:10px;align-items:center}
+.no{font-family:var(--game);color:#2a1a00;background:#ffd400;border:2px solid #000;border-radius:50%;width:36px;height:36px;display:grid;place-items:center;flex:none}
+.line{flex:1;direction:rtl;text-align:right;font-family:Amiri,'Scheherazade New',serif;font-size:1.9rem;line-height:2.1}
+.res{font-size:1.6rem;flex:none}
+.blank{display:inline-block;min-width:96px;min-height:46px;vertical-align:middle;margin:0 4px;padding:0 10px;text-align:center;line-height:1.7;background:var(--blue);border:3px dashed var(--blue-d);border-radius:12px;color:var(--navy)}
+.blank.f{border-style:solid;background:#e9f3ff}.blank.ok{background:var(--okbg);border:3px solid var(--ok)}.blank.no{background:var(--badbg);border:3px solid var(--bad)}
+.opts{display:grid;gap:10px;margin-top:10px}
+.opt{font-family:Amiri,'Scheherazade New',serif;font-size:2rem;line-height:1.5;min-height:62px;background:var(--pink);color:var(--navy);border:4px solid #000;border-radius:16px;padding:4px 14px;box-shadow:0 4px 0 #000}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 #000}
+.opt.pick{background:#ffd400;transform:scale(1.02)}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}.opt.no{background:var(--badbg);border-color:var(--bad)}
+.fix{display:block;font-weight:700;color:var(--ok);margin-top:8px}
+.fix span{font-family:Amiri,serif;font-size:1.5rem}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.score{text-align:center;background:#fff;border:4px solid #000;border-radius:22px;padding:16px;margin:14px 0;box-shadow:0 0 0 3px var(--neon),0 8px 0 #000;font-weight:700}
+.score .big{font-family:var(--game);font-size:3.4rem;color:var(--green-d);line-height:1}
+.score p{margin:6px 0 0;font-weight:700;font-size:1.1rem}
+.audio{background:linear-gradient(135deg,#e6f7ec,#fff6c7);border:4px solid #000;border-radius:22px;padding:16px;text-align:center;margin-top:14px}
+.play{width:96px;height:96px;border-radius:50%;border:5px solid #000;background:#2ecc40;color:#fff;font-size:2.7rem;margin:10px 0;box-shadow:0 6px 0 #157a22}
+.bar{height:12px;background:#fff;border:2px solid #000;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--pink-d)}
+.tbl{width:100%;border-collapse:collapse;background:#fff;border:4px solid #000;border-radius:14px;overflow:hidden;font-weight:600}
+.tbl th{background:#252c78;color:#fff;padding:10px 6px;text-align:left;font-family:var(--game);font-weight:400}
+.tbl td{padding:10px 6px;border-top:2px solid var(--line)}
+.tbl tr:nth-child(1) td:first-child:before{content:"🥇 "}.tbl tr:nth-child(2) td:first-child:before{content:"🥈 "}.tbl tr:nth-child(3) td:first-child:before{content:"🥉 "}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<div class="sky" id="sky" aria-hidden="true"></div>
+<div class="wrap">
+
+<div class="hero">
+  <svg viewBox="0 0 100 110" aria-hidden="true"><use href="#boy"/></svg>
+  <div><h1>PORTAL PEMBELAJARAN KAFA</h1><div class="oleh">OLEH USTAZ SOLEH</div><p>Darjah 1 hingga 6 ⭐ Klik jawapan sahaja!</p></div>
+</div>
+<div class="tabs hide" id="tabs">
+  <button class="tab on" id="tabT">📝 Tugasan</button>
+  <button class="tab" id="tabB">🏆 Papan Markah - Semua Murid</button>
+</div>
+
+<!-- ===== PILIH DARJAH ===== -->
+<section id="pilih">
+  <h2 class="title" style="margin-bottom:12px">Pilih Darjah kamu 👇</h2>
+  <div class="dgrid" id="darjahGrid"></div>
+
+  <!-- ===== MASUKKAN KOD RAHSIA ===== -->
+  <div class="kodbox">
+    <h2><label for="kodIn">🔐 MASUKKAN KOD RAHSIA UNTUK MENJAWAB</label></h2>
+    <p class="kodsel" id="kodTitle">Pilih Darjah kamu dahulu 👆</p>
+    <div class="kodrow">
+      <input id="kodIn" autocomplete="off" autocapitalize="characters" placeholder="TAIP KOD DI SINI...">
+      <button class="btn" id="kodBtn">MASUK ▶️</button>
+    </div>
+    <div class="err" id="kodErr" style="margin-top:8px"></div>
+  </div>
+</section>
+
+<!-- ===== TAB TUGASAN: SENARAI ===== -->
+<section id="home">
+  <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px">
+    <h2 class="title" id="homeTitle"></h2>
+    <button class="btn ghost" id="changeBtn">🔄 Tukar Darjah</button>
+  </div>
+  <div class="grid" id="taskGrid"></div>
+</section>
+
+<!-- ===== TAB TUGASAN: JAWAB ===== -->
+<section id="task" class="hide">
+  <button class="btn ghost" id="backTop" style="margin-bottom:10px">⬅ Utama</button>
+  <div class="notice" id="notice"></div>
+  <div style="display:flex;gap:12px;align-items:center">
+    <h2 class="title" id="tTitle"></h2>
+    <svg viewBox="0 0 100 110" width="80" style="flex:none" aria-hidden="true"><use href="#boy"/></svg>
+  </div>
+  <div class="sub" id="tSub"></div>
+
+  <div class="panel" id="who">
+    <span class="kelas" id="kelasTag">Darjah 1</span>
+    <label for="nama">Nama kamu</label>
+    <input id="nama" autocomplete="name" placeholder="Taip nama di sini">
+    <div class="err" id="whoErr"></div>
+    <button class="btn" id="startBtn">Mula Jawab 🚀</button>
+  </div>
+
+  <div id="work" class="hide">
+    <div class="guide">👆 Klik satu jawapan yang betul untuk setiap soalan.</div>
+    <div id="qs"></div>
+    <div class="actions">
+      <button class="btn" id="checkBtn">Semak &amp; Hantar ✅</button>
+      <button class="btn alt hide" id="resendBtn">Hantar Semula 📤</button>
+      <button class="btn alt hide" id="boardBtn">Lihat Papan Markah 🏆</button>
+      <button class="btn ghost" id="backBtn">Kembali ke Utama 🏠</button>
+    </div>
+    <div class="err" id="checkErr"></div>
+    <div class="score hide" id="score"></div>
+    <div class="audio hide" id="audioBox">
+      <h3>🎧 Alunan Surah Al-Fatihah</h3>
+      <div style="font-weight:700">Qari Sheikh Maher Al Muaiqly</div>
+      <button class="play" id="playBtn" aria-label="Main / Jeda">▶</button>
+      <div class="bar"><i id="prog"></i></div>
+      <p style="font-weight:800;margin:10px 0 0">Dengar dan ikut bacaan dengan betul ya!</p>
+      <div class="err" id="audErr"></div>
+      <audio id="aud" preload="none"></audio>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TAB PAPAN MARKAH ===== -->
+<section id="board" class="hide">
+  <h2 class="title" style="margin-bottom:6px">🏆 Papan Markah - Semua Murid</h2>
+  <div class="sub" id="bSub"></div>
+  <button class="btn alt" id="refBtn" style="margin-bottom:12px">🔄 Refresh / Lihat Markah Terkini</button>
+  <div class="err" id="bErr"></div>
+  <table class="tbl"><thead><tr><th>No.</th><th>Nama</th><th id="thMarkah">Markah</th><th>Tarikh</th></tr></thead><tbody id="bBody"></tbody></table>
+</section>
+</div>
+
+<!-- =====================================================================
+     BORANG STATIK NETLIFY (WAJIB KEKAL): Netlify mengesan borang-borang ini semasa deploy.
+     Ada 6 borang, satu untuk setiap Darjah. Jangan padam, jangan tukar nama, dan jangan letak dalam JavaScript.
+     Medan mesti sama dengan data yang dihantar oleh fungsi send() dalam JavaScript di bawah.
+     ===================================================================== -->
+<form name="keputusan-darjah1" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="keputusan-darjah1">
+  <p hidden><label>Jangan isi ini: <input type="text" name="bot-field"></label></p>
+  <input type="text" name="tugasan"><input type="text" name="nama_murid"><input type="text" name="markah"><input type="text" name="tarikh_hantar"><input type="text" name="jawapan_murid">
+</form>
+<form name="keputusan-darjah2" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="keputusan-darjah2">
+  <p hidden><label>Jangan isi ini: <input type="text" name="bot-field"></label></p>
+  <input type="text" name="tugasan"><input type="text" name="nama_murid"><input type="text" name="markah"><input type="text" name="tarikh_hantar"><input type="text" name="jawapan_murid">
+</form>
+<form name="keputusan-darjah3" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="keputusan-darjah3">
+  <p hidden><label>Jangan isi ini: <input type="text" name="bot-field"></label></p>
+  <input type="text" name="tugasan"><input type="text" name="nama_murid"><input type="text" name="markah"><input type="text" name="tarikh_hantar"><input type="text" name="jawapan_murid">
+</form>
+<form name="keputusan-darjah4" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="keputusan-darjah4">
+  <p hidden><label>Jangan isi ini: <input type="text" name="bot-field"></label></p>
+  <input type="text" name="tugasan"><input type="text" name="nama_murid"><input type="text" name="markah"><input type="text" name="tarikh_hantar"><input type="text" name="jawapan_murid">
+</form>
+<form name="keputusan-darjah5" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="keputusan-darjah5">
+  <p hidden><label>Jangan isi ini: <input type="text" name="bot-field"></label></p>
+  <input type="text" name="tugasan"><input type="text" name="nama_murid"><input type="text" name="markah"><input type="text" name="tarikh_hantar"><input type="text" name="jawapan_murid">
+</form>
+<form name="keputusan-darjah6" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="keputusan-darjah6">
+  <p hidden><label>Jangan isi ini: <input type="text" name="bot-field"></label></p>
+  <input type="text" name="tugasan"><input type="text" name="nama_murid"><input type="text" name="markah"><input type="text" name="tarikh_hantar"><input type="text" name="jawapan_murid">
+</form>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="boy" viewBox="0 0 100 110">
+    <ellipse cx="50" cy="104" rx="42" ry="5" fill="#2f8f5b" opacity=".35"/>
+    <rect x="8" y="94" width="84" height="9" rx="4" fill="#3b82d6"/>
+    <path d="M30 94 Q28 62 50 58 Q72 62 70 94Z" fill="#fff" stroke="#16306b" stroke-width="3"/>
+    <circle cx="50" cy="38" r="20" fill="#f6c9a0" stroke="#16306b" stroke-width="3"/>
+    <path d="M30 32 Q30 12 50 12 Q70 12 70 32Z" fill="#16306b"/><rect x="30" y="28" width="40" height="6" fill="#ffd95a"/>
+    <circle cx="43" cy="42" r="2.6" fill="#16306b"/><circle cx="57" cy="42" r="2.6" fill="#16306b"/>
+    <path d="M44 50 Q50 55 56 50" fill="none" stroke="#c4575a" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="38" cy="48" r="3" fill="#ffb3b3" opacity=".7"/><circle cx="62" cy="48" r="3" fill="#ffb3b3" opacity=".7"/>
+    <path d="M38 74 Q50 66 62 74" fill="none" stroke="#f6c9a0" stroke-width="8" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<script>
+/* =====================================================================
+   TETAPAN GURU
+   ===================================================================== */
+// Letak URL Web App Google Apps Script di sini (lihat "CARA SETUP GOOGLE SHEET" di bawah fail).
+// Jika kosong, Papan Markah guna localStorage (DEMO sahaja - hanya nampak pada telefon yang sama).
+const SHEET_URL = "";
+
+// KOD DARJAH: ubah di sini jika cikgu mahu tukar kod. (Nota: kod boleh dilihat oleh sesiapa yang tahu "View Source",
+// jadi ia sesuai untuk menghalang salah masuk, bukan keselamatan tinggi.)
+const CODES = { 1:"KAFA1", 2:"KAFA2", 3:"KAFA3", 4:"KAFA4", 5:"KAFA5", 6:"KAFA6" };
+
+/* CARA TAMBAH TUGASAN BARU: tambah satu objek dalam array `tasks` di bawah
+   (template penuh ada di komen HTML paling bawah). */
+const tasks = [
+  {
+    id: "al-fatihah",
+    darjah: 1,
+    form: "keputusan-darjah1",     // nama borang Netlify = keputusan-darjah + nombor darjah
+    title: "Amali Solat Tahun 1 - Bahagian B: Bacaan dan Perlakuan Dalam Solat",
+    subtitle: "Lengkapkan bacaan Surah alFatihah yang berikut (7 Markah)",
+    subject: "Amali Solat",
+    due: "6 November 2026",
+    closeAt: "2026-11-06T00:00:00+08:00",   // Tugasan ditutup bermula masa ini = 6 Nov 2026, 12:00 tengah malam (waktu Malaysia)
+    // Guna ___ untuk tempat kosong. answer mesti sama tepat dengan salah satu options.
+    questions: [
+      { text:"بِسْمِ اللَّهِ ___ الرَّحِيمِ", options:["الرَّحْمَنِ","الْعَالَمِينَ","يَوْمِ"], answer:"الرَّحْمَنِ" },
+      { text:"الْحَمْدُ لِلَّهِ رَبِّ ___", options:["الْعَالَمِينَ","نَعْبُدُ","الْمَغْضُوبِ"], answer:"الْعَالَمِينَ" },
+      { text:"الرَّحْمَنِ ___", options:["الرَّحِيمِ","الْمُسْتَقِيمَ","يَوْمِ"], answer:"الرَّحِيمِ" },
+      { text:"مَلِكِ ___ الدِّينِ", options:["يَوْمِ","نَعْبُدُ","الْعَالَمِينَ"], answer:"يَوْمِ" },
+      { text:"إِيَّاكَ ___ وَإِيَّاكَ نَسْتَعِينُ", options:["نَعْبُدُ","الرَّحِيمِ","الْمُسْتَقِيمَ"], answer:"نَعْبُدُ" },
+      { text:"اهْدِنَا الصِّرَاطَ ___", options:["الْمُسْتَقِيمَ","الْمَغْضُوبِ","الرَّحْمَنِ"], answer:"الْمُسْتَقِيمَ" },
+      { text:"صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ___ عَلَيْهِمْ وَلَا الضَّالِّينَ", options:["الْمَغْضُوبِ","يَوْمِ","الْعَالَمِينَ"], answer:"الْمَغْضُوبِ" }
+    ],
+    audio: {
+      src:    "https://server12.mp3quran.net/maher/001.mp3",
+      backup: "https://server8.mp3quran.net/afs/001.mp3",
+      // Link tambahan (dicuba mengikut turutan jika yang di atas gagal). Boleh tambah/buang sendiri.
+      more: ["https://download.quranicaudio.com/quran/maher_almu3aiqly/year1440/001.mp3",
+             "https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/1.mp3"]
+    }
+  },
+  {
+    id: "darjah2-akan-datang", darjah: 2, form: "keputusan-darjah2", soon: true,
+    title: "Tugasan Akan Datang", subtitle: "", subject: "Akan Datang", questions: []
+  },
+  {
+    id: "darjah3-akan-datang", darjah: 3, form: "keputusan-darjah3", soon: true,
+    title: "Tugasan Akan Datang", subtitle: "", subject: "Akan Datang", questions: []
+  },
+  {
+    id: "darjah4-akan-datang", darjah: 4, form: "keputusan-darjah4", soon: true,
+    title: "Tugasan Akan Datang", subtitle: "", subject: "Akan Datang", questions: []
+  },
+  {
+    id: "darjah5-akan-datang", darjah: 5, form: "keputusan-darjah5", soon: true,
+    title: "Tugasan Akan Datang", subtitle: "", subject: "Akan Datang", questions: []
+  },
+  {
+    id: "darjah6-akan-datang", darjah: 6, form: "keputusan-darjah6", soon: true,
+    title: "Tugasan Akan Datang", subtitle: "", subject: "Akan Datang", questions: []
+  },
+  // <-- TAMBAH TUGASAN BARU DI SINI
+];
+
+/* ----------------------- Kod sistem (tak perlu ubah) ----------------------- */
+const $ = id => document.getElementById(id);
+const isClosed = t => !t.soon && t.closeAt && Date.now() >= new Date(t.closeAt).getTime();
+let dj=null, pend=null, cur=null, picks=[], opts=[], checked=false, lastRec=null;
+
+function show(p){
+  ['pilih','home','task','board'].forEach(x=>$(x).classList.toggle('hide',x!==p));
+  $('tabs').classList.toggle('hide',p==='pilih');
+  $('tabT').classList.toggle('on',p!=='board'); $('tabB').classList.toggle('on',p==='board');
+  window.scrollTo(0,0);
+}
+function stopAudio(){const a=$('aud');a.pause();a.removeAttribute('src');a.load();}
+
+function renderPilih(){
+  const ic={1:'🕹️',2:'⚔️',3:'🏆',4:'🚀',5:'👾',6:'👑'};
+  $('darjahGrid').innerHTML=[1,2,3,4,5,6].map(n=>`<button class="dbtn" data-d="${n}"><span class="ic" aria-hidden="true">${ic[n]}</span>Darjah ${n}</button>`).join('');
+  document.querySelectorAll('.dbtn').forEach(b=>b.onclick=()=>{b.classList.remove('boing');void b.offsetWidth;b.classList.add('boing');askCode(+b.dataset.d);});
+}
+function askCode(n){
+  pend=n;$('kodTitle').textContent='Darjah '+n+' dipilih ✅';$('kodErr').textContent='';
+  document.querySelectorAll('.dbtn').forEach(b=>b.classList.toggle('sel',+b.dataset.d===n));
+  $('kodIn').focus();
+}
+$('kodBtn').onclick=()=>{
+  if(pend===null){$('kodErr').textContent='Pilih Darjah dahulu!';return;}
+  if($('kodIn').value.trim().toUpperCase()===CODES[pend]){dj=pend;$('kodIn').value='';renderHome();show('home');}
+  else $('kodErr').textContent='Kod Salah! Tanya Cikgu.';
+};
+$('kodIn').onkeydown=e=>{if(e.key==='Enter')$('kodBtn').click();};
+$('changeBtn').onclick=()=>{dj=null;cur=null;stopAudio();show('pilih');};
+
+function renderHome(){
+  $('homeTitle').textContent='Tugasan Darjah '+dj;
+  $('taskGrid').innerHTML=tasks.map((t,i)=>({t,i})).filter(x=>x.t.darjah===dj).map(({t,i})=>{
+    const c=isClosed(t), soon=t.soon;
+    return `<div class="card"><span class="tag">${t.subject} · Darjah ${t.darjah}</span><h3>${t.title}</h3>
+    <div class="due">${soon?'🕐 Cikgu akan letak tugasan di sini':c?'🔒 Tugasan Telah Ditutup':'📅 Sila hantar sebelum '+t.due}</div>
+    <button class="btn" data-i="${i}" ${(c||soon)?'disabled':''}>${soon?'Akan Datang':c?'Telah Ditutup':'Mula Jawab'}</button></div>`;
+  }).join('');
+  document.querySelectorAll('#taskGrid .btn').forEach(b=>b.onclick=()=>openTask(+b.dataset.i));
+}
+
+function openTask(i){
+  cur=tasks[i]; const c=isClosed(cur);
+  $('kelasTag').textContent='Darjah '+dj; $('tTitle').textContent=cur.title; $('tSub').textContent=cur.subtitle;
+  $('notice').textContent = c ? 'Tugasan Telah Ditutup' : 'Sila hantar sebelum '+cur.due;
+  $('notice').classList.toggle('closed',c);
+  $('who').classList.toggle('hide',c); $('work').classList.add('hide'); $('whoErr').textContent='';
+  show('task');
+}
+
+$('startBtn').onclick=()=>{
+  if(!$('nama').value.trim()){$('whoErr').textContent='Sila taip nama kamu dahulu ya 😊';return;}
+  $('who').classList.add('hide'); $('work').classList.remove('hide'); reset();
+};
+
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+function reset(){
+  checked=false; picks=cur.questions.map(()=>null); opts=cur.questions.map(q=>shuffle(q.options));
+  ['score','audioBox','resendBtn','boardBtn'].forEach(x=>$(x).classList.add('hide'));
+  $('checkBtn').disabled=false; $('checkErr').textContent=''; draw();
+}
+
+function draw(){
+  $('qs').innerHTML=cur.questions.map((q,n)=>{
+    const p=picks[n], ok=checked&&p===q.answer, [a,b]=q.text.split('___');
+    const cls=checked?(ok?'ok':'no'):(p?'f':'');
+    const fix=checked&&!ok?`<span class="fix">Jawapan betul: <span>${q.answer}</span></span>`:'';
+    return `<div class="q ${checked?(ok?'ok':'no'):''}"><div class="qh"><div class="no">${n+1}</div>
+      <div class="line">${a}<span class="blank ${cls}">${p||'&nbsp;'}</span>${b||''}</div><div class="res">${checked?(ok?'✅':'❌'):''}</div></div>
+      <div class="opts">${opts[n].map((o,k)=>{let c=p===o?'pick':'';if(checked){if(o===q.answer)c='ok';else if(p===o)c='no';}
+        return `<button class="opt ${c}" data-n="${n}" data-k="${k}" ${checked?'disabled':''}>${o}</button>`}).join('')}</div>${fix}</div>`;
+  }).join('');
+  document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(checked)return;picks[+b.dataset.n]=opts[+b.dataset.n][+b.dataset.k];draw();});
+}
+
+$('checkBtn').onclick=()=>{
+  if(isClosed(cur)){$('checkErr').textContent='Tugasan Telah Ditutup.';return;}
+  if(picks.some(v=>!v)){$('checkErr').textContent='Eh, masih ada soalan belum dijawab. Lengkapkan semua dahulu ya! 🙂';return;}
+  $('checkErr').textContent=''; checked=true;
+  const s=cur.questions.filter((q,n)=>picks[n]===q.answer).length, tot=cur.questions.length, pct=s/tot;
+  const msg=pct===1?'🎉 Tahniah! Semua betul! MasyaAllah, hebat!':pct>=0.6?'👏 Bagus! Teruskan usaha ya!':'💪 Tak apa, belajar lagi ya. Dengar bacaan di bawah!';
+  const sc=$('score'); sc.classList.remove('hide');
+  sc.innerHTML=`<div>${esc($('nama').value.trim())} (Darjah ${dj})</div><div class="big">${s} / ${tot}</div><p>${msg}</p><p id="sendSt">⏳ Menghantar markah...</p>`;
+  $('checkBtn').disabled=true; $('boardBtn').classList.remove('hide'); draw();
+  sc.scrollIntoView({behavior:'smooth',block:'center'});
+  lastRec={tugasan:cur.id,nama_murid:$('nama').value.trim(),markah:s+'/'+tot,tarikh_hantar:new Date().toLocaleString('ms-MY'),
+    jawapan_murid:picks.map((p,n)=>(n+1)+':'+p).join(' | ')};
+  send(); if(cur.audio) startAudio();
+};
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+async function send(){
+  const st=$('sendSt'); $('resendBtn').classList.add('hide'); st.textContent='⏳ Menghantar markah...';
+  let netOk=false; const {saved,...rec}=lastRec;   // 'saved' hanya penanda dalaman, tak dihantar
+  // 1) Netlify Forms -> guru tengok di Netlify > Forms. Nama form mesti sama dengan borang statik di atas.
+  try{
+    const r=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:new URLSearchParams({'form-name':cur.form,'bot-field':'',...rec}).toString()});
+    netOk=r.ok;
+    if(!r.ok)console.error('Netlify Forms gagal. Status:',r.status,'(404 = borang belum dikesan Netlify)');
+  }catch(e){console.error('Netlify Forms gagal:',e);}
+  // 2) Papan Markah (Google Sheet, atau localStorage demo jika SHEET_URL kosong)
+  if(!lastRec.saved){
+    if(SHEET_URL){
+      try{await fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(rec)});lastRec.saved=true;}catch(e){console.error('Google Sheet gagal:',e);}
+    } else {
+      try{const d=JSON.parse(localStorage.getItem('papan')||'[]');d.push(lastRec);localStorage.setItem('papan',JSON.stringify(d));lastRec.saved=true;}catch(e){}
+    }
+  }
+  if(netOk){st.textContent='✅ Markah sudah dihantar kepada cikgu!';}
+  else{st.textContent='⚠️ Markah belum sampai kepada cikgu. Semak internet, kemudian tekan Hantar Semula.';$('resendBtn').classList.remove('hide');}
+}
+$('resendBtn').onclick=send;
+function goHome(){stopAudio();if(dj===null){show('pilih');return;}renderHome();show('home');}
+$('backBtn').onclick=goHome;$('backTop').onclick=goHome;
+
+function startAudio(){
+  const a=$('aud'); let t=0, timer; delete a.dataset.fail;
+  const srcs=[cur.audio.src,cur.audio.backup,...(cur.audio.more||[])].filter(Boolean);
+  $('audioBox').classList.remove('hide'); $('audErr').innerHTML=''; $('prog').style.width='0';
+  const fail=()=>{clearTimeout(timer);a.dataset.fail='1';
+    $('audErr').innerHTML='Audio tidak dapat dimainkan. <a href="'+srcs[0]+'" target="_blank" rel="noopener">Tekan di sini untuk buka audio di tab baru</a>, atau tekan ▶ untuk cuba lagi.';};
+  const next=()=>{clearTimeout(timer);t++;t<srcs.length?load():fail();};
+  const load=()=>{a.src=srcs[t];a.load();
+    timer=setTimeout(()=>{if(a.readyState<2)next();},10000);   // jika lambat sangat, cuba link seterusnya
+    const p=a.play(); if(p&&p.catch)p.catch(()=>{});};          // jika autoplay disekat, murid tekan ▶
+  a.onerror=next; a.onloadeddata=()=>clearTimeout(timer);
+  a.onplay=()=>$('playBtn').textContent='⏸'; a.onpause=()=>$('playBtn').textContent='▶';
+  a.onended=()=>{$('playBtn').textContent='▶';$('prog').style.width='100%';};
+  a.ontimeupdate=()=>{if(a.duration)$('prog').style.width=(a.currentTime/a.duration*100)+'%';};
+  load();
+}
+$('playBtn').onclick=()=>{const a=$('aud');if(!a.src||a.dataset.fail){startAudio();return;}a.paused?a.play().catch(()=>{}):a.pause();};
+
+/* ---------------- Papan Markah ---------------- */
+async function loadBoard(){
+  if(dj===null){show('pilih');return;}
+  const t=(cur&&cur.darjah===dj&&!cur.soon)?cur:tasks.find(x=>x.darjah===dj&&!x.soon);
+  $('bErr').textContent=''; $('bBody').innerHTML='';
+  if(!t){$('bSub').textContent='Darjah '+dj;$('thMarkah').textContent='Markah';$('bBody').innerHTML='<tr><td colspan="4">Belum ada tugasan untuk Darjah '+dj+'. Tunggu cikgu ya! 🌟</td></tr>';return;}
+  $('bSub').textContent='Darjah '+dj+' · '+t.title; $('thMarkah').textContent='Markah /'+t.questions.length;
+  let rows=[];
+  try{
+    if(SHEET_URL){const r=await fetch(SHEET_URL);rows=await r.json();}
+    else{rows=JSON.parse(localStorage.getItem('papan')||'[]');}
+  }catch(e){$('bErr').textContent='Papan Markah tidak dapat dimuatkan. Tekan Refresh sekali lagi.';}
+  const best={};
+  rows.filter(r=>r.tugasan===t.id).forEach(r=>{const k=String(r.nama_murid).trim().toLowerCase(),m=parseInt(r.markah);
+    if(!best[k]||m>best[k].m)best[k]={n:r.nama_murid,m,d:r.tarikh_hantar};});
+  const list=Object.values(best).sort((a,b)=>b.m-a.m);
+  $('bBody').innerHTML=list.length?list.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(String(r.n))}</td><td>${r.m} / ${t.questions.length}</td><td>${esc(String(r.d||''))}</td></tr>`).join('')
+    :'<tr><td colspan="4">Belum ada murid menghantar. Jadilah yang pertama! 🌟</td></tr>';
+}
+$('tabT').onclick=goHome; $('tabB').onclick=()=>{stopAudio();show('board');loadBoard();};
+$('boardBtn').onclick=$('tabB').onclick; $('refBtn').onclick=loadBoard;
+/* Hiasan langit malam: bintang berkelip + blok terapung di tepi */
+(function sky(){
+  const k=$('sky'); let h='';
+  for(let i=0;i<70;i++){const c=i%9===0?'star plus':i%4===0?'star big':'star';
+    h+=`<i class="${c}" style="left:${(Math.random()*100).toFixed(1)}%;top:${(Math.random()*100).toFixed(1)}%;animation-delay:${(Math.random()*3).toFixed(2)}s;animation-duration:${(1.6+Math.random()*2.4).toFixed(2)}s"></i>`;}
+  const B=[['grass','2%','12%',64,'8deg',0],['tnt','-1%','48%',50,'-10deg',1.2],['dia','4%','80%',42,'12deg',2.4],
+           ['gold','91%','8%',46,'-8deg',.6],['robo','93%','38%',58,'10deg',1.8],['grass','88%','70%',52,'-12deg',3],['dia','47%','95%',34,'6deg',2]];
+  B.forEach(([t,l,tp,s,r,d])=>h+=`<i class="blk ${t}" style="left:${l};top:${tp};--s:${s}px;--r:${r};animation-delay:${d}s"></i>`);
+  k.innerHTML=h;
+})();
+renderPilih(); show('pilih');
+</script>
+
+<!--
+=====================================================================
+CARA TAMBAH TUGASAN BARU
+=====================================================================
+1. Dalam <script>, cari:  const tasks = [
+2. Letak koma selepas objek terakhir, copy-paste template ini sebelum baris "TAMBAH TUGASAN BARU DI SINI":
+
+  {
+    id: "id-unik",                       // huruf kecil, tiada ruang
+    darjah: 2,                           // 1 hingga 6. Tugasan hanya nampak dalam Darjah ini
+    form: "keputusan-darjah2",           // keputusan-darjah + nombor darjah (mesti ada borang statik)
+    title: "Tajuk Lembaran Kerja",
+    subtitle: "Arahan ringkas (x Markah)",
+    subject: "Nama Subjek",
+    due: "31 Disember 2026",             // teks yang dipaparkan
+    closeAt: "2026-12-31T00:00:00+08:00",// masa tugasan ditutup
+    questions: [
+      { text:"ayat ___ ayat", options:["A","B","C"], answer:"A" },   // dengan tempat kosong ___
+      { text:"Soalan biasa tanpa tempat kosong?", options:["A","B","C"], answer:"B" }
+    ]
+    // audio: { src:"https://...mp3", backup:"https://...mp3" }   <- pilihan sahaja
+  }
+
+Nota: "answer" mesti sama tepat dengan satu pilihan dalam "options".
+Pilihan jawapan akan dikocok secara automatik setiap kali murid mula.
+Untuk MENGUBAH TARIKH TUTUP, ubah "closeAt" (dan "due").
+Papan Markah memaparkan tugasan yang baru dibuka (atau tugasan pertama yang sebenar) bagi Darjah murid itu.
+Untuk ganti "Tugasan Akan Datang": padam objek placeholder (soon:true) Darjah itu, kemudian letak tugasan sebenar.
+Kod Darjah: ubah dalam CODES di bahagian atas script.
+
+=====================================================================
+CARA TENGOK LIST NAMA: Netlify > Forms
+=====================================================================
+1. Upload index.html ke Netlify (drag-and-drop folder/fail di app.netlify.com).
+2. Buka site anda > menu "Forms" (atau Site configuration > Forms).
+   Pastikan "Form detection" aktif (Forms > Enable form detection) kemudian deploy semula jika perlu.
+3. Klik "keputusan-darjah1 hingga keputusan-darjah6" > "Active submissions".
+   Setiap murid ada: tugasan, nama_murid, markah, tarikh_hantar, jawapan_murid.
+4. Boleh muat turun semua sebagai CSV (butang "Export CSV").
+Nota: Netlify Forms hanya berfungsi selepas di-upload ke Netlify, bukan bila buka fail di komputer.
+JIKA FORM TAK MUNCUL DI NETLIFY > FORMS:
+ a) Site configuration > Forms > klik "Enable form detection" (jika belum aktif).
+ b) Pergi ke Deploys > "Trigger deploy" > "Deploy site", ATAU drag-and-drop semula index.html. Borang hanya dikesan SELEPAS deploy baharu.
+ c) Buka link site (BUKAN fail di komputer), jawab sekali sebagai ujian. Jika muncul "Markah sudah dihantar", semak Forms semula.
+ d) Jika murid nampak amaran kuning "Markah belum sampai kepada cikgu", bermakna Netlify belum menerima borang (biasanya langkah a/b belum dibuat).
+ e) Borang statik "keputusan-darjah1 hingga keputusan-darjah6" di bahagian atas fail mesti kekal; nama mesti sama dengan dalam fungsi send().
+
+=====================================================================
+CARA SETUP GOOGLE SHEET UNTUK PAPAN MARKAH (5 minit)
+=====================================================================
+1. Buka sheets.google.com > buat Spreadsheet baru. Namakan "Papan Markah KAFA".
+2. Klik menu Extensions > Apps Script. Padam semua kod, paste kod ini:
+
+   const NAMA_SHEET = "Sheet1";
+   const HEAD = ["tugasan","nama_murid","markah","tarikh_hantar","jawapan_murid"];
+   function sheet_(){
+     const s = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(NAMA_SHEET);
+     if (s.getLastRow() === 0) s.appendRow(HEAD);
+     return s;
+   }
+   function doPost(e){
+     const d = JSON.parse(e.postData.contents);
+     sheet_().appendRow(HEAD.map(h => d[h] || ""));
+     return ContentService.createTextOutput("OK");
+   }
+   function doGet(){
+     const v = sheet_().getDataRange().getValues();
+     const h = v.shift();
+     const out = v.map(r => { const o = {}; h.forEach((k,i)=> o[k] = String(r[i])); return o; })
+                  .map(o => ({tugasan:o.tugasan, nama_murid:o.nama_murid, markah:o.markah, tarikh_hantar:o.tarikh_hantar}));
+     return ContentService.createTextOutput(JSON.stringify(out)).setMimeType(ContentService.MimeType.JSON);
+   }
+
+   (Jika nama tab sheet anda bukan "Sheet1", tukar NAMA_SHEET.)
+3. Klik Deploy > New deployment > ikon gear > pilih "Web app".
+   - Execute as: Me
+   - Who has access: Anyone
+   Klik Deploy, benarkan kebenaran (Authorize) bila diminta.
+4. Salin "Web app URL" (berakhir dengan /exec).
+5. Dalam fail ini, letak URL itu pada:  const SHEET_URL = "URL_ANDA";
+   Upload semula ke Netlify. Selesai! Nama murid terus muncul dalam Papan Markah.
+Nota: Kod di atas tidak menghantar "jawapan_murid" ke Papan Markah (hanya nama, markah, tarikh),
+      tetapi data penuh tetap ada dalam Google Sheet dan Netlify Forms untuk guru.
+=====================================================================
+-->
+</body>
+</html>
