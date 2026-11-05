@@ -144,6 +144,10 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
 .mbox .skor{font-family:var(--game);font-size:clamp(3.2rem,16vw,4.6rem);line-height:1.05;color:var(--neon);text-shadow:0 4px 0 #0f9a35,0 0 22px rgba(57,255,106,.7);margin:4px 0 8px}
 .mbox .mesej{color:#fff;font-weight:700;margin:0 0 14px}
 .mbox .btn{display:block;width:100%;margin-top:12px;font-size:1.3rem}
+.mbox label.mlabel{display:block;text-align:left;font-family:var(--game);font-size:1.1rem;color:#9fe7ff;margin:4px 0 6px}
+.mbox input{width:100%;font-family:var(--game);font-size:1.35rem;padding:13px;border:4px solid #000;border-radius:14px;background:#fff;color:#111;box-shadow:inset 0 4px 0 rgba(0,0,0,.15)}
+.mbox input::placeholder{color:#8a8fa8}
+.mbox .merr{min-height:1.4em;margin-top:8px;color:#ff8a98;font-family:var(--game);font-size:1.15rem;text-shadow:0 2px 0 #000}
 .mbox .nota{margin:12px 0 0;color:#cfe6ff;font-size:.95rem;font-weight:600}
 .mbox .tutup{position:absolute;z-index:2;top:8px;right:10px;width:44px;height:44px;border:3px solid #000;border-radius:12px;background:#fff;color:#141a4a;font-family:var(--game);font-size:1.3rem;box-shadow:0 3px 0 #000;padding:0}
 @media(prefers-reduced-motion:reduce){.mbox{animation:none}}
@@ -246,13 +250,27 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
     <button class="tutup" id="mTutup" aria-label="Tutup">✕</button>
     <div class="trofi" aria-hidden="true">🏆</div>
     <h2 id="mTajuk">TAHNIAH!</h2>
-    <div class="nm" id="mNama"></div>
-    <div class="mk">Markah Kamu:</div>
-    <div class="skor" id="mSkor"></div>
-    <p class="mesej" id="mMesej"></p>
-    <button class="btn" id="mHantar">HANTAR MARKAH KE USTAZ 📤</button>
-    <button class="btn grey" id="mLagi">MAIN LAGI 🔄</button>
-    <p class="nota">Taip nama kamu sahaja di Google Form, yang lain sudah terisi.</p>
+
+    <!-- Paparan 1: markah + taip nama + hantar -->
+    <div id="mSebelum">
+      <div class="nm" id="mNama"></div>
+      <div class="mk">Markah Kamu:</div>
+      <div class="skor" id="mSkor"></div>
+      <p class="mesej" id="mMesej"></p>
+      <label class="mlabel" for="mNamaIn">Taip nama kamu:</label>
+      <input id="mNamaIn" autocomplete="name" maxlength="60" placeholder="Taip nama di sini">
+      <div class="merr" id="mErr" role="alert"></div>
+      <button class="btn" id="mHantar">HANTAR MARKAH KE USTAZ 📤</button>
+      <button class="btn grey" id="mLagi">MAIN LAGI 🔄</button>
+    </div>
+
+    <!-- Paparan 2: selepas berjaya hantar -->
+    <div id="mSiap" class="hide">
+      <div class="skor" id="mSkor2"></div>
+      <p class="mesej" id="mMesej2"></p>
+      <button class="btn" id="mUlang">BUAT LAGI 🔄</button>
+      <button class="btn grey" id="mMenu">KEMBALI KE MENU 🏠</button>
+    </div>
   </div>
 </div>
 
@@ -277,27 +295,15 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
 // Papan Markah ialah DEMO SETEMPAT (localStorage): murid hanya nampak markah pada telefon/pelayar sendiri.
 
 /* =====================================================================
-   HANTAR MARKAH KE USTAZ (Google Form, tanpa pelayan, sesuai untuk GitHub Pages)
-   Murid tekan butang hijau dalam popup -> Google Form dibuka di tab baru dengan Tahun, Kod dan Markah terisi.
-   CARA DAPATKAN ID MEDAN: buka Google Form (mod edit) > menu ⋮ > "Get pre-filled link" > isi contoh > "Get link".
-   Salin nombor entry.xxxxxxxxx ke bawah. Jika kosong (""), medan itu tidak diisi.
+   HANTAR MARKAH KE USTAZ (Google Apps Script, tiada pelayan lain, sesuai untuk GitHub Pages)
+   Bila murid tekan butang hijau dalam popup, data JSON dihantar guna fetch POST ke URL di bawah:
+     { "nama": "Ali", "tahun": "Tahun 1", "kod": "KAFA1", "markah": 6 }
+   Tahun, Kod dan Markah dikira oleh sistem (murid tak boleh ubah dalam popup). Murid hanya taip Nama.
+   NOTA: mode 'no-cors' tidak membenarkan pelayar membaca jawapan Apps Script. "Berjaya" bermaksud permintaan
+   sampai keluar tanpa ralat rangkaian; "Gagal" bermaksud tiada internet atau tamat masa (15 saat).
    ===================================================================== */
-const GFORM = {
-  url: "https://docs.google.com/forms/d/e/1FAIpQLSfqw5m17VRvHT12j5idCbYjrKWM-QChrBlXgdvUNyqd5ca8Qw/viewform",
-  entryDarjah: "entry.1469489228",
-  entryKod:    "entry.1211737596",
-  entryMarkah: "entry.1125897244",
-  // entry.408820513 = medan Nama. Sengaja tidak diisi, murid taip sendiri.
-  darjahDengan: "Tahun ",   // nilai dihantar ke medan Tahun dalam Form: "Tahun 1" hingga "Tahun 6"
-  markahPecahan: false       // false = "7" sahaja; true = "7/7"
-};
-function formLink(){
-  const u=new URL(GFORM.url); u.searchParams.set('usp','pp_url');
-  if(GFORM.entryDarjah) u.searchParams.set(GFORM.entryDarjah, GFORM.darjahDengan+dj);
-  if(GFORM.entryKod)    u.searchParams.set(GFORM.entryKod, CODES[dj]);
-  if(GFORM.entryMarkah) u.searchParams.set(GFORM.entryMarkah, GFORM.markahPecahan?lastRec.markah:String(parseInt(lastRec.markah)));
-  return u.toString();
-}
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw7vXQm5rnKtHfQv2R4AQmPj4gPhW6wMbEqtnmPdQaeMI93i_IXD7ZqVxM9YN2-iHCj/exec";
+let hasil=null, terhantar=false, sedangHantar=false;   // hasil = {tahun,kod,markah,jumlah} dikunci semasa Semak
 
 // KOD TAHUN: ubah di sini jika cikgu mahu tukar kod. (Nota: kod boleh dilihat oleh sesiapa yang tahu "View Source",
 // jadi ia sesuai untuk menghalang salah masuk, bukan keselamatan tinggi.)
@@ -413,6 +419,7 @@ $('startBtn').onclick=()=>{
 
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 function reset(){
+  hasil=null; terhantar=false; sedangHantar=false;
   checked=false; picks=cur.questions.map(()=>null); opts=cur.questions.map(q=>shuffle(q.options));
   ['score','audioBox','resendBtn','boardBtn'].forEach(x=>$(x).classList.add('hide'));
   $('checkBtn').disabled=false; $('checkErr').textContent=''; draw();
@@ -443,6 +450,7 @@ $('checkBtn').onclick=()=>{
   sc.scrollIntoView({behavior:'smooth',block:'center'});
   lastRec={tugasan:cur.id,nama_murid:$('nama').value.trim(),markah:s+'/'+tot,tarikh_hantar:new Date().toLocaleString('ms-MY'),
     jawapan_murid:picks.map((p,n)=>(n+1)+':'+p).join(' | ')};
+  hasil={tahun:'Tahun '+dj,kod:CODES[dj],markah:s,jumlah:tot}; terhantar=false;
   saveLocal(); $('resendBtn').classList.remove('hide'); if(cur.audio) startAudio();
   setTimeout(()=>openModal(s,tot,msg),600);
 };
@@ -455,20 +463,57 @@ function saveLocal(){
 }
 
 /* ---------------- Popup Tahniah ---------------- */
+function tunjukPaparan(siap){
+  $('mSebelum').classList.toggle('hide',siap); $('mSiap').classList.toggle('hide',!siap);
+  $('mTajuk').textContent=siap?'MARKAH DAH DIHANTAR!':'TAHNIAH!';
+  if(siap){$('mSkor2').textContent=hasil.markah+' / '+hasil.jumlah;$('mMesej2').textContent='Tahniah! Markah kamu sudah sampai kepada ustaz. 🎉';}
+}
 function openModal(s,tot,msg){
-  $('mNama').textContent=$('nama').value.trim()+' (Tahun '+dj+')';
+  if(!hasil) return;
+  $('mNama').textContent=hasil.tahun;                         // hanya paparan, bukan kotak edit
   $('mSkor').textContent=s+' / '+tot;
-  $('mMesej').textContent=msg;
-  document.querySelector('#modal .nota').classList.toggle('hide',!(GFORM.entryDarjah||GFORM.entryKod||GFORM.entryMarkah));  // nota auto-isi hanya bila ID medan sudah diisi
-  $('modal').classList.remove('hide'); $('mHantar').focus();
+  $('mMesej').textContent=msg; $('mErr').textContent='';
+  if(!$('mNamaIn').value.trim()) $('mNamaIn').value=$('nama').value.trim();   // isi awal dengan nama yang ditaip tadi, murid boleh betulkan
+  tunjukPaparan(terhantar);
+  $('modal').classList.remove('hide'); (terhantar?$('mUlang'):$('mNamaIn')).focus();
 }
 function closeModal(){$('modal').classList.add('hide');}
-$('mHantar').onclick=()=>{ window.open(formLink(),'_blank','noopener'); };
-$('mLagi').onclick=()=>{closeModal();stopAudio();reset();window.scrollTo(0,0);};
+
+async function hantarMarkah(){
+  if(sedangHantar||terhantar||!hasil) return;
+  const nama=$('mNamaIn').value.trim();
+  if(!nama){$('mErr').textContent='Sila taip nama kamu dahulu ya 😊';$('mNamaIn').focus();return;}
+  sedangHantar=true; $('mErr').textContent='';
+  const btn=$('mHantar'); btn.disabled=true; btn.textContent='MENGHANTAR...';
+  const ctrl=new AbortController(), timer=setTimeout(()=>ctrl.abort(),15000);
+  try{
+    if(navigator.onLine===false) throw new Error('luar talian');
+    await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',signal:ctrl.signal,
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({nama:nama,tahun:hasil.tahun,kod:hasil.kod,markah:hasil.markah})});
+    terhantar=true; $('resendBtn').classList.add('hide');
+    try{ // kemas kini nama dalam Papan Markah setempat supaya sama
+      lastRec.nama_murid=nama;
+      const d=JSON.parse(localStorage.getItem('papan')||'[]'),i=d.findIndex(x=>x.tarikh_hantar===lastRec.tarikh_hantar&&x.tugasan===lastRec.tugasan);
+      if(i>=0){d[i].nama_murid=nama;localStorage.setItem('papan',JSON.stringify(d));}
+    }catch(e){}
+    tunjukPaparan(true); $('mUlang').focus();
+  }catch(e){
+    console.error('Gagal hantar markah:',e);
+    $('mErr').textContent='Gagal hantar, cuba lagi';
+  }finally{
+    clearTimeout(timer); sedangHantar=false; btn.disabled=false; btn.textContent='HANTAR MARKAH KE USTAZ 📤';
+  }
+}
+$('mHantar').onclick=hantarMarkah;
+$('mNamaIn').onkeydown=e=>{if(e.key==='Enter')hantarMarkah();};
+const ulang=()=>{closeModal();stopAudio();reset();window.scrollTo(0,0);};
+$('mLagi').onclick=ulang; $('mUlang').onclick=ulang;
+$('mMenu').onclick=()=>{closeModal();goHome();};
 $('mTutup').onclick=closeModal;
 $('modal').onclick=e=>{if(e.target===$('modal'))closeModal();};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
-$('resendBtn').onclick=()=>{ if(lastRec) openModal(parseInt(lastRec.markah),cur.questions.length,$('mMesej').textContent||''); };
+$('resendBtn').onclick=()=>{ if(hasil) openModal(hasil.markah,hasil.jumlah,$('mMesej').textContent||''); };
 function goHome(){stopAudio();if(dj===null){show('pilih');return;}renderHome();show('home');}
 $('backBtn').onclick=goHome;$('backTop').onclick=goHome;
 
@@ -553,13 +598,13 @@ Untuk ganti "Tugasan Akan Datang": padam objek placeholder (soon:true) Tahun itu
 Kod Tahun: ubah dalam CODES di bahagian atas script.
 
 =====================================================================
-CARA TENGOK LIST NAMA & MARKAH: Google Form > Responses (Jawapan)
+CARA TENGOK LIST NAMA & MARKAH: Google Sheet (Apps Script awak)
 =====================================================================
-1. Buka Google Form awak di forms.google.com > tab "Responses".
-2. Setiap murid yang tekan "HANTAR MARKAH KE USTAZ" dan tekan Submit di Google Form akan muncul di situ (Nama, Tahun, Kod, Markah).
-3. Tekan ikon hijau "Link to Sheets" untuk lihat semua dalam jadual Google Sheet.
-4. Auto-isi: tetapkan nombor "entry.xxxxxxxxx" dalam GFORM di bahagian atas script (lihat arahan di situ).
-5. Tiada Netlify dan tiada pelayan digunakan, jadi fail ini boleh dihoskan di GitHub Pages.
+1. Setiap murid yang tekan "HANTAR MARKAH KE USTAZ" menghantar JSON ke Apps Script awak:
+   { "nama": "Ali", "tahun": "Tahun 1", "kod": "KAFA1", "markah": 6 }
+2. Apps Script awak (fungsi doPost) mesti baca e.postData.contents dan JSON.parse, kemudian simpan ke Sheet.
+3. Jika tukar URL Apps Script (deploy baharu), ubah SCRIPT_URL di bahagian atas script.
+4. Papan Markah dalam portal ini hanya demo setempat (hanya nampak pada telefon murid sendiri).
 
 -->
 </body>
