@@ -47,7 +47,7 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
 .hero .oleh{font-family:var(--game);font-style:normal;font-weight:400;font-size:clamp(1.25rem,4.2vw,1.9rem);line-height:1.1;letter-spacing:.08em;color:#fff;margin:8px 0 0;text-shadow:0 3px 0 #1b1f5e,0 0 14px rgba(140,170,255,.8)}
 .hero p{margin:8px 0 0;font-family:var(--game);font-weight:400;font-size:clamp(1rem,3.2vw,1.2rem);color:#9fe7ff;letter-spacing:.03em}
 
-/* ---------- Butang Darjah (game) ---------- */
+/* ---------- Butang Tahun (game) ---------- */
 .dgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 @media(min-width:620px){.dgrid{grid-template-columns:repeat(3,1fr)}}
 .dbtn{--c:#ff2e4d;--d:#9e0f25;--t:#fff;position:relative;border:4px solid #000;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.35) 0 12%,transparent 45%),var(--c);color:var(--t);
@@ -129,6 +129,24 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
 .tbl th{background:#252c78;color:#fff;padding:10px 6px;text-align:left;font-family:var(--game);font-weight:400}
 .tbl td{padding:10px 6px;border-top:2px solid var(--line)}
 .tbl tr:nth-child(1) td:first-child:before{content:"🥇 "}.tbl tr:nth-child(2) td:first-child:before{content:"🥈 "}.tbl tr:nth-child(3) td:first-child:before{content:"🥉 "}
+.btn.grey{background:#8a8fa8;color:#fff;box-shadow:0 5px 0 #4d5270,0 5px 0 3px #000}
+.btn.grey:active{box-shadow:0 1px 0 #4d5270,0 1px 0 3px #000}
+
+/* ---------- Popup markah ---------- */
+.modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(3,5,22,.82);overflow-y:auto}
+.mbox{position:relative;width:100%;max-width:440px;text-align:center;background:linear-gradient(180deg,#1d2366,#10144a);border:5px solid #000;border-radius:26px;padding:26px 18px 22px;
+ box-shadow:0 0 0 4px var(--neon),0 0 34px rgba(57,255,106,.55),0 12px 0 #000;animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:none;opacity:1}}
+.mbox .trofi{font-size:4rem;line-height:1;margin-bottom:6px;filter:drop-shadow(0 0 14px rgba(255,214,0,.8))}
+.mbox h2{font-size:clamp(2rem,9vw,2.8rem);line-height:1.05;color:#ffe14d;text-shadow:0 3px 0 #b8560f,0 6px 0 #5a1f00,0 0 22px rgba(255,200,60,.55);-webkit-text-stroke:1px #5a1f00;margin-bottom:8px}
+.mbox .nm{font-family:var(--game);font-size:1.15rem;color:#9fe7ff;margin-bottom:6px;word-break:break-word}
+.mbox .mk{font-family:var(--game);font-size:1.2rem;color:#fff;text-shadow:0 2px 0 #000}
+.mbox .skor{font-family:var(--game);font-size:clamp(3.2rem,16vw,4.6rem);line-height:1.05;color:var(--neon);text-shadow:0 4px 0 #0f9a35,0 0 22px rgba(57,255,106,.7);margin:4px 0 8px}
+.mbox .mesej{color:#fff;font-weight:700;margin:0 0 14px}
+.mbox .btn{display:block;width:100%;margin-top:12px;font-size:1.3rem}
+.mbox .nota{margin:12px 0 0;color:#cfe6ff;font-size:.95rem;font-weight:600}
+.mbox .tutup{position:absolute;z-index:2;top:8px;right:10px;width:44px;height:44px;border:3px solid #000;border-radius:12px;background:#fff;color:#141a4a;font-family:var(--game);font-size:1.3rem;box-shadow:0 3px 0 #000;padding:0}
+@media(prefers-reduced-motion:reduce){.mbox{animation:none}}
 .hide{display:none!important}
 </style>
 </head>
@@ -138,22 +156,22 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
 
 <div class="hero">
   <svg viewBox="0 0 100 110" aria-hidden="true"><use href="#boy"/></svg>
-  <div><h1>PORTAL PEMBELAJARAN KAFA</h1><div class="oleh">OLEH USTAZ SOLEH</div><p>Darjah 1 hingga 6 ⭐ Klik jawapan sahaja!</p></div>
+  <div><h1>PORTAL PEMBELAJARAN KAFA</h1><div class="oleh">OLEH USTAZ SOLEH</div><p>Tahun 1 hingga 6 ⭐ Klik jawapan sahaja!</p></div>
 </div>
 <div class="tabs hide" id="tabs">
   <button class="tab on" id="tabT">📝 Tugasan</button>
   <button class="tab" id="tabB">🏆 Papan Markah - Semua Murid</button>
 </div>
 
-<!-- ===== PILIH DARJAH ===== -->
+<!-- ===== PILIH TAHUN ===== -->
 <section id="pilih">
-  <h2 class="title" style="margin-bottom:12px">Pilih Darjah kamu 👇</h2>
+  <h2 class="title" style="margin-bottom:12px">Pilih Tahun kamu 👇</h2>
   <div class="dgrid" id="darjahGrid"></div>
 
   <!-- ===== MASUKKAN KOD RAHSIA ===== -->
   <div class="kodbox">
     <h2><label for="kodIn">🔐 MASUKKAN KOD RAHSIA UNTUK MENJAWAB</label></h2>
-    <p class="kodsel" id="kodTitle">Pilih Darjah kamu dahulu 👆</p>
+    <p class="kodsel" id="kodTitle">Pilih Tahun kamu dahulu 👆</p>
     <div class="kodrow">
       <input id="kodIn" autocomplete="off" autocapitalize="characters" placeholder="TAIP KOD DI SINI...">
       <button class="btn" id="kodBtn">MASUK ▶️</button>
@@ -166,7 +184,7 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
 <section id="home">
   <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px">
     <h2 class="title" id="homeTitle"></h2>
-    <button class="btn ghost" id="changeBtn">🔄 Tukar Darjah</button>
+    <button class="btn ghost" id="changeBtn">🔄 Tukar Tahun</button>
   </div>
   <div class="grid" id="taskGrid"></div>
 </section>
@@ -182,7 +200,7 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
   <div class="sub" id="tSub"></div>
 
   <div class="panel" id="who">
-    <span class="kelas" id="kelasTag">Darjah 1</span>
+    <span class="kelas" id="kelasTag">Tahun 1</span>
     <label for="nama">Nama kamu</label>
     <input id="nama" autocomplete="name" placeholder="Taip nama di sini">
     <div class="err" id="whoErr"></div>
@@ -194,7 +212,7 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
     <div id="qs"></div>
     <div class="actions">
       <button class="btn" id="checkBtn">Semak &amp; Hantar ✅</button>
-      <button class="btn alt hide" id="resendBtn">Hantar Semula 📤</button>
+      <button class="btn alt hide" id="resendBtn">Hantar Markah ke Ustaz 📤</button>
       <button class="btn alt hide" id="boardBtn">Lihat Papan Markah 🏆</button>
       <button class="btn ghost" id="backBtn">Kembali ke Utama 🏠</button>
     </div>
@@ -222,41 +240,21 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
 </section>
 </div>
 
-<!-- =====================================================================
-     BORANG STATIK NETLIFY (WAJIB KEKAL): Netlify mengesan borang-borang ini semasa deploy.
-     Ada 6 borang, satu untuk setiap Darjah. Jangan padam, jangan tukar nama, dan jangan letak dalam JavaScript.
-     Medan mesti sama dengan data yang dihantar oleh fungsi send() dalam JavaScript di bawah.
-     ===================================================================== -->
-<form name="keputusan-darjah1" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input type="hidden" name="form-name" value="keputusan-darjah1">
-  <p hidden><label>Jangan isi ini: <input type="text" name="bot-field"></label></p>
-  <input type="text" name="tugasan"><input type="text" name="nama_murid"><input type="text" name="markah"><input type="text" name="tarikh_hantar"><input type="text" name="jawapan_murid">
-</form>
-<form name="keputusan-darjah2" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input type="hidden" name="form-name" value="keputusan-darjah2">
-  <p hidden><label>Jangan isi ini: <input type="text" name="bot-field"></label></p>
-  <input type="text" name="tugasan"><input type="text" name="nama_murid"><input type="text" name="markah"><input type="text" name="tarikh_hantar"><input type="text" name="jawapan_murid">
-</form>
-<form name="keputusan-darjah3" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input type="hidden" name="form-name" value="keputusan-darjah3">
-  <p hidden><label>Jangan isi ini: <input type="text" name="bot-field"></label></p>
-  <input type="text" name="tugasan"><input type="text" name="nama_murid"><input type="text" name="markah"><input type="text" name="tarikh_hantar"><input type="text" name="jawapan_murid">
-</form>
-<form name="keputusan-darjah4" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input type="hidden" name="form-name" value="keputusan-darjah4">
-  <p hidden><label>Jangan isi ini: <input type="text" name="bot-field"></label></p>
-  <input type="text" name="tugasan"><input type="text" name="nama_murid"><input type="text" name="markah"><input type="text" name="tarikh_hantar"><input type="text" name="jawapan_murid">
-</form>
-<form name="keputusan-darjah5" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input type="hidden" name="form-name" value="keputusan-darjah5">
-  <p hidden><label>Jangan isi ini: <input type="text" name="bot-field"></label></p>
-  <input type="text" name="tugasan"><input type="text" name="nama_murid"><input type="text" name="markah"><input type="text" name="tarikh_hantar"><input type="text" name="jawapan_murid">
-</form>
-<form name="keputusan-darjah6" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input type="hidden" name="form-name" value="keputusan-darjah6">
-  <p hidden><label>Jangan isi ini: <input type="text" name="bot-field"></label></p>
-  <input type="text" name="tugasan"><input type="text" name="nama_murid"><input type="text" name="markah"><input type="text" name="tarikh_hantar"><input type="text" name="jawapan_murid">
-</form>
+<!-- ===== POPUP TAHNIAH (keluar selepas murid tekan Semak) ===== -->
+<div class="modal hide" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTajuk">
+  <div class="mbox">
+    <button class="tutup" id="mTutup" aria-label="Tutup">✕</button>
+    <div class="trofi" aria-hidden="true">🏆</div>
+    <h2 id="mTajuk">TAHNIAH!</h2>
+    <div class="nm" id="mNama"></div>
+    <div class="mk">Markah Kamu:</div>
+    <div class="skor" id="mSkor"></div>
+    <p class="mesej" id="mMesej"></p>
+    <button class="btn" id="mHantar">HANTAR MARKAH KE USTAZ 📤</button>
+    <button class="btn grey" id="mLagi">MAIN LAGI 🔄</button>
+    <p class="nota">Taip nama kamu sahaja di Google Form, yang lain sudah terisi.</p>
+  </div>
+</div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="boy" viewBox="0 0 100 110">
@@ -276,11 +274,32 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
 /* =====================================================================
    TETAPAN GURU
    ===================================================================== */
-// Letak URL Web App Google Apps Script di sini (lihat "CARA SETUP GOOGLE SHEET" di bawah fail).
-// Jika kosong, Papan Markah guna localStorage (DEMO sahaja - hanya nampak pada telefon yang sama).
-const SHEET_URL = "";
+// Papan Markah ialah DEMO SETEMPAT (localStorage): murid hanya nampak markah pada telefon/pelayar sendiri.
 
-// KOD DARJAH: ubah di sini jika cikgu mahu tukar kod. (Nota: kod boleh dilihat oleh sesiapa yang tahu "View Source",
+/* =====================================================================
+   HANTAR MARKAH KE USTAZ (Google Form, tanpa pelayan, sesuai untuk GitHub Pages)
+   Murid tekan butang hijau dalam popup -> Google Form dibuka di tab baru dengan Tahun, Kod dan Markah terisi.
+   CARA DAPATKAN ID MEDAN: buka Google Form (mod edit) > menu ⋮ > "Get pre-filled link" > isi contoh > "Get link".
+   Salin nombor entry.xxxxxxxxx ke bawah. Jika kosong (""), medan itu tidak diisi.
+   ===================================================================== */
+const GFORM = {
+  url: "https://docs.google.com/forms/d/e/1FAIpQLSfqw5m17VRvHT12j5idCbYjrKWM-QChrBlXgdvUNyqd5ca8Qw/viewform",
+  entryDarjah: "entry.1469489228",
+  entryKod:    "entry.1211737596",
+  entryMarkah: "entry.1125897244",
+  // entry.408820513 = medan Nama. Sengaja tidak diisi, murid taip sendiri.
+  darjahDengan: "Tahun ",   // nilai dihantar ke medan Tahun dalam Form: "Tahun 1" hingga "Tahun 6"
+  markahPecahan: false       // false = "7" sahaja; true = "7/7"
+};
+function formLink(){
+  const u=new URL(GFORM.url); u.searchParams.set('usp','pp_url');
+  if(GFORM.entryDarjah) u.searchParams.set(GFORM.entryDarjah, GFORM.darjahDengan+dj);
+  if(GFORM.entryKod)    u.searchParams.set(GFORM.entryKod, CODES[dj]);
+  if(GFORM.entryMarkah) u.searchParams.set(GFORM.entryMarkah, GFORM.markahPecahan?lastRec.markah:String(parseInt(lastRec.markah)));
+  return u.toString();
+}
+
+// KOD TAHUN: ubah di sini jika cikgu mahu tukar kod. (Nota: kod boleh dilihat oleh sesiapa yang tahu "View Source",
 // jadi ia sesuai untuk menghalang salah masuk, bukan keselamatan tinggi.)
 const CODES = { 1:"KAFA1", 2:"KAFA2", 3:"KAFA3", 4:"KAFA4", 5:"KAFA5", 6:"KAFA6" };
 
@@ -290,7 +309,6 @@ const tasks = [
   {
     id: "al-fatihah",
     darjah: 1,
-    form: "keputusan-darjah1",     // nama borang Netlify = keputusan-darjah + nombor darjah
     title: "Amali Solat Tahun 1 - Bahagian B: Bacaan dan Perlakuan Dalam Solat",
     subtitle: "Lengkapkan bacaan Surah alFatihah yang berikut (7 Markah)",
     subject: "Amali Solat",
@@ -315,23 +333,23 @@ const tasks = [
     }
   },
   {
-    id: "darjah2-akan-datang", darjah: 2, form: "keputusan-darjah2", soon: true,
+    id: "darjah2-akan-datang", darjah: 2, soon: true,
     title: "Tugasan Akan Datang", subtitle: "", subject: "Akan Datang", questions: []
   },
   {
-    id: "darjah3-akan-datang", darjah: 3, form: "keputusan-darjah3", soon: true,
+    id: "darjah3-akan-datang", darjah: 3, soon: true,
     title: "Tugasan Akan Datang", subtitle: "", subject: "Akan Datang", questions: []
   },
   {
-    id: "darjah4-akan-datang", darjah: 4, form: "keputusan-darjah4", soon: true,
+    id: "darjah4-akan-datang", darjah: 4, soon: true,
     title: "Tugasan Akan Datang", subtitle: "", subject: "Akan Datang", questions: []
   },
   {
-    id: "darjah5-akan-datang", darjah: 5, form: "keputusan-darjah5", soon: true,
+    id: "darjah5-akan-datang", darjah: 5, soon: true,
     title: "Tugasan Akan Datang", subtitle: "", subject: "Akan Datang", questions: []
   },
   {
-    id: "darjah6-akan-datang", darjah: 6, form: "keputusan-darjah6", soon: true,
+    id: "darjah6-akan-datang", darjah: 6, soon: true,
     title: "Tugasan Akan Datang", subtitle: "", subject: "Akan Datang", questions: []
   },
   // <-- TAMBAH TUGASAN BARU DI SINI
@@ -352,16 +370,16 @@ function stopAudio(){const a=$('aud');a.pause();a.removeAttribute('src');a.load(
 
 function renderPilih(){
   const ic={1:'🕹️',2:'⚔️',3:'🏆',4:'🚀',5:'👾',6:'👑'};
-  $('darjahGrid').innerHTML=[1,2,3,4,5,6].map(n=>`<button class="dbtn" data-d="${n}"><span class="ic" aria-hidden="true">${ic[n]}</span>Darjah ${n}</button>`).join('');
+  $('darjahGrid').innerHTML=[1,2,3,4,5,6].map(n=>`<button class="dbtn" data-d="${n}"><span class="ic" aria-hidden="true">${ic[n]}</span>Tahun ${n}</button>`).join('');
   document.querySelectorAll('.dbtn').forEach(b=>b.onclick=()=>{b.classList.remove('boing');void b.offsetWidth;b.classList.add('boing');askCode(+b.dataset.d);});
 }
 function askCode(n){
-  pend=n;$('kodTitle').textContent='Darjah '+n+' dipilih ✅';$('kodErr').textContent='';
+  pend=n;$('kodTitle').textContent='Tahun '+n+' dipilih ✅';$('kodErr').textContent='';
   document.querySelectorAll('.dbtn').forEach(b=>b.classList.toggle('sel',+b.dataset.d===n));
   $('kodIn').focus();
 }
 $('kodBtn').onclick=()=>{
-  if(pend===null){$('kodErr').textContent='Pilih Darjah dahulu!';return;}
+  if(pend===null){$('kodErr').textContent='Pilih Tahun dahulu!';return;}
   if($('kodIn').value.trim().toUpperCase()===CODES[pend]){dj=pend;$('kodIn').value='';renderHome();show('home');}
   else $('kodErr').textContent='Kod Salah! Tanya Cikgu.';
 };
@@ -369,10 +387,10 @@ $('kodIn').onkeydown=e=>{if(e.key==='Enter')$('kodBtn').click();};
 $('changeBtn').onclick=()=>{dj=null;cur=null;stopAudio();show('pilih');};
 
 function renderHome(){
-  $('homeTitle').textContent='Tugasan Darjah '+dj;
+  $('homeTitle').textContent='Tugasan Tahun '+dj;
   $('taskGrid').innerHTML=tasks.map((t,i)=>({t,i})).filter(x=>x.t.darjah===dj).map(({t,i})=>{
     const c=isClosed(t), soon=t.soon;
-    return `<div class="card"><span class="tag">${t.subject} · Darjah ${t.darjah}</span><h3>${t.title}</h3>
+    return `<div class="card"><span class="tag">${t.subject} · Tahun ${t.darjah}</span><h3>${t.title}</h3>
     <div class="due">${soon?'🕐 Cikgu akan letak tugasan di sini':c?'🔒 Tugasan Telah Ditutup':'📅 Sila hantar sebelum '+t.due}</div>
     <button class="btn" data-i="${i}" ${(c||soon)?'disabled':''}>${soon?'Akan Datang':c?'Telah Ditutup':'Mula Jawab'}</button></div>`;
   }).join('');
@@ -381,7 +399,7 @@ function renderHome(){
 
 function openTask(i){
   cur=tasks[i]; const c=isClosed(cur);
-  $('kelasTag').textContent='Darjah '+dj; $('tTitle').textContent=cur.title; $('tSub').textContent=cur.subtitle;
+  $('kelasTag').textContent='Tahun '+dj; $('tTitle').textContent=cur.title; $('tSub').textContent=cur.subtitle;
   $('notice').textContent = c ? 'Tugasan Telah Ditutup' : 'Sila hantar sebelum '+cur.due;
   $('notice').classList.toggle('closed',c);
   $('who').classList.toggle('hide',c); $('work').classList.add('hide'); $('whoErr').textContent='';
@@ -420,37 +438,37 @@ $('checkBtn').onclick=()=>{
   const s=cur.questions.filter((q,n)=>picks[n]===q.answer).length, tot=cur.questions.length, pct=s/tot;
   const msg=pct===1?'🎉 Tahniah! Semua betul! MasyaAllah, hebat!':pct>=0.6?'👏 Bagus! Teruskan usaha ya!':'💪 Tak apa, belajar lagi ya. Dengar bacaan di bawah!';
   const sc=$('score'); sc.classList.remove('hide');
-  sc.innerHTML=`<div>${esc($('nama').value.trim())} (Darjah ${dj})</div><div class="big">${s} / ${tot}</div><p>${msg}</p><p id="sendSt">⏳ Menghantar markah...</p>`;
+  sc.innerHTML=`<div>${esc($('nama').value.trim())} (Tahun ${dj})</div><div class="big">${s} / ${tot}</div><p>${msg}</p><p id="sendSt">Tekan butang "Hantar Markah ke Ustaz" di bawah ya!</p>`;
   $('checkBtn').disabled=true; $('boardBtn').classList.remove('hide'); draw();
   sc.scrollIntoView({behavior:'smooth',block:'center'});
   lastRec={tugasan:cur.id,nama_murid:$('nama').value.trim(),markah:s+'/'+tot,tarikh_hantar:new Date().toLocaleString('ms-MY'),
     jawapan_murid:picks.map((p,n)=>(n+1)+':'+p).join(' | ')};
-  send(); if(cur.audio) startAudio();
+  saveLocal(); $('resendBtn').classList.remove('hide'); if(cur.audio) startAudio();
+  setTimeout(()=>openModal(s,tot,msg),600);
 };
 const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-async function send(){
-  const st=$('sendSt'); $('resendBtn').classList.add('hide'); st.textContent='⏳ Menghantar markah...';
-  let netOk=false; const {saved,...rec}=lastRec;   // 'saved' hanya penanda dalaman, tak dihantar
-  // 1) Netlify Forms -> guru tengok di Netlify > Forms. Nama form mesti sama dengan borang statik di atas.
-  try{
-    const r=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
-      body:new URLSearchParams({'form-name':cur.form,'bot-field':'',...rec}).toString()});
-    netOk=r.ok;
-    if(!r.ok)console.error('Netlify Forms gagal. Status:',r.status,'(404 = borang belum dikesan Netlify)');
-  }catch(e){console.error('Netlify Forms gagal:',e);}
-  // 2) Papan Markah (Google Sheet, atau localStorage demo jika SHEET_URL kosong)
-  if(!lastRec.saved){
-    if(SHEET_URL){
-      try{await fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(rec)});lastRec.saved=true;}catch(e){console.error('Google Sheet gagal:',e);}
-    } else {
-      try{const d=JSON.parse(localStorage.getItem('papan')||'[]');d.push(lastRec);localStorage.setItem('papan',JSON.stringify(d));lastRec.saved=true;}catch(e){}
-    }
-  }
-  if(netOk){st.textContent='✅ Markah sudah dihantar kepada cikgu!';}
-  else{st.textContent='⚠️ Markah belum sampai kepada cikgu. Semak internet, kemudian tekan Hantar Semula.';$('resendBtn').classList.remove('hide');}
+// Simpan untuk Papan Markah (demo setempat, tiada pelayan)
+function saveLocal(){
+  if(lastRec.saved) return;
+  try{const d=JSON.parse(localStorage.getItem('papan')||'[]');d.push(lastRec);localStorage.setItem('papan',JSON.stringify(d));lastRec.saved=true;}catch(e){}
 }
-$('resendBtn').onclick=send;
+
+/* ---------------- Popup Tahniah ---------------- */
+function openModal(s,tot,msg){
+  $('mNama').textContent=$('nama').value.trim()+' (Tahun '+dj+')';
+  $('mSkor').textContent=s+' / '+tot;
+  $('mMesej').textContent=msg;
+  document.querySelector('#modal .nota').classList.toggle('hide',!(GFORM.entryDarjah||GFORM.entryKod||GFORM.entryMarkah));  // nota auto-isi hanya bila ID medan sudah diisi
+  $('modal').classList.remove('hide'); $('mHantar').focus();
+}
+function closeModal(){$('modal').classList.add('hide');}
+$('mHantar').onclick=()=>{ window.open(formLink(),'_blank','noopener'); };
+$('mLagi').onclick=()=>{closeModal();stopAudio();reset();window.scrollTo(0,0);};
+$('mTutup').onclick=closeModal;
+$('modal').onclick=e=>{if(e.target===$('modal'))closeModal();};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+$('resendBtn').onclick=()=>{ if(lastRec) openModal(parseInt(lastRec.markah),cur.questions.length,$('mMesej').textContent||''); };
 function goHome(){stopAudio();if(dj===null){show('pilih');return;}renderHome();show('home');}
 $('backBtn').onclick=goHome;$('backTop').onclick=goHome;
 
@@ -477,12 +495,11 @@ async function loadBoard(){
   if(dj===null){show('pilih');return;}
   const t=(cur&&cur.darjah===dj&&!cur.soon)?cur:tasks.find(x=>x.darjah===dj&&!x.soon);
   $('bErr').textContent=''; $('bBody').innerHTML='';
-  if(!t){$('bSub').textContent='Darjah '+dj;$('thMarkah').textContent='Markah';$('bBody').innerHTML='<tr><td colspan="4">Belum ada tugasan untuk Darjah '+dj+'. Tunggu cikgu ya! 🌟</td></tr>';return;}
-  $('bSub').textContent='Darjah '+dj+' · '+t.title; $('thMarkah').textContent='Markah /'+t.questions.length;
+  if(!t){$('bSub').textContent='Tahun '+dj;$('thMarkah').textContent='Markah';$('bBody').innerHTML='<tr><td colspan="4">Belum ada tugasan untuk Tahun '+dj+'. Tunggu cikgu ya! 🌟</td></tr>';return;}
+  $('bSub').textContent='Tahun '+dj+' · '+t.title; $('thMarkah').textContent='Markah /'+t.questions.length;
   let rows=[];
   try{
-    if(SHEET_URL){const r=await fetch(SHEET_URL);rows=await r.json();}
-    else{rows=JSON.parse(localStorage.getItem('papan')||'[]');}
+    rows=JSON.parse(localStorage.getItem('papan')||'[]');
   }catch(e){$('bErr').textContent='Papan Markah tidak dapat dimuatkan. Tekan Refresh sekali lagi.';}
   const best={};
   rows.filter(r=>r.tugasan===t.id).forEach(r=>{const k=String(r.nama_murid).trim().toLowerCase(),m=parseInt(r.markah);
@@ -515,8 +532,7 @@ CARA TAMBAH TUGASAN BARU
 
   {
     id: "id-unik",                       // huruf kecil, tiada ruang
-    darjah: 2,                           // 1 hingga 6. Tugasan hanya nampak dalam Darjah ini
-    form: "keputusan-darjah2",           // keputusan-darjah + nombor darjah (mesti ada borang statik)
+    darjah: 2,                           // 1 hingga 6. Tugasan hanya nampak dalam Tahun ini
     title: "Tajuk Lembaran Kerja",
     subtitle: "Arahan ringkas (x Markah)",
     subject: "Nama Subjek",
@@ -532,64 +548,19 @@ CARA TAMBAH TUGASAN BARU
 Nota: "answer" mesti sama tepat dengan satu pilihan dalam "options".
 Pilihan jawapan akan dikocok secara automatik setiap kali murid mula.
 Untuk MENGUBAH TARIKH TUTUP, ubah "closeAt" (dan "due").
-Papan Markah memaparkan tugasan yang baru dibuka (atau tugasan pertama yang sebenar) bagi Darjah murid itu.
-Untuk ganti "Tugasan Akan Datang": padam objek placeholder (soon:true) Darjah itu, kemudian letak tugasan sebenar.
-Kod Darjah: ubah dalam CODES di bahagian atas script.
+Papan Markah memaparkan tugasan yang baru dibuka (atau tugasan pertama yang sebenar) bagi Tahun murid itu.
+Untuk ganti "Tugasan Akan Datang": padam objek placeholder (soon:true) Tahun itu, kemudian letak tugasan sebenar.
+Kod Tahun: ubah dalam CODES di bahagian atas script.
 
 =====================================================================
-CARA TENGOK LIST NAMA: Netlify > Forms
+CARA TENGOK LIST NAMA & MARKAH: Google Form > Responses (Jawapan)
 =====================================================================
-1. Upload index.html ke Netlify (drag-and-drop folder/fail di app.netlify.com).
-2. Buka site anda > menu "Forms" (atau Site configuration > Forms).
-   Pastikan "Form detection" aktif (Forms > Enable form detection) kemudian deploy semula jika perlu.
-3. Klik "keputusan-darjah1 hingga keputusan-darjah6" > "Active submissions".
-   Setiap murid ada: tugasan, nama_murid, markah, tarikh_hantar, jawapan_murid.
-4. Boleh muat turun semua sebagai CSV (butang "Export CSV").
-Nota: Netlify Forms hanya berfungsi selepas di-upload ke Netlify, bukan bila buka fail di komputer.
-JIKA FORM TAK MUNCUL DI NETLIFY > FORMS:
- a) Site configuration > Forms > klik "Enable form detection" (jika belum aktif).
- b) Pergi ke Deploys > "Trigger deploy" > "Deploy site", ATAU drag-and-drop semula index.html. Borang hanya dikesan SELEPAS deploy baharu.
- c) Buka link site (BUKAN fail di komputer), jawab sekali sebagai ujian. Jika muncul "Markah sudah dihantar", semak Forms semula.
- d) Jika murid nampak amaran kuning "Markah belum sampai kepada cikgu", bermakna Netlify belum menerima borang (biasanya langkah a/b belum dibuat).
- e) Borang statik "keputusan-darjah1 hingga keputusan-darjah6" di bahagian atas fail mesti kekal; nama mesti sama dengan dalam fungsi send().
+1. Buka Google Form awak di forms.google.com > tab "Responses".
+2. Setiap murid yang tekan "HANTAR MARKAH KE USTAZ" dan tekan Submit di Google Form akan muncul di situ (Nama, Tahun, Kod, Markah).
+3. Tekan ikon hijau "Link to Sheets" untuk lihat semua dalam jadual Google Sheet.
+4. Auto-isi: tetapkan nombor "entry.xxxxxxxxx" dalam GFORM di bahagian atas script (lihat arahan di situ).
+5. Tiada Netlify dan tiada pelayan digunakan, jadi fail ini boleh dihoskan di GitHub Pages.
 
-=====================================================================
-CARA SETUP GOOGLE SHEET UNTUK PAPAN MARKAH (5 minit)
-=====================================================================
-1. Buka sheets.google.com > buat Spreadsheet baru. Namakan "Papan Markah KAFA".
-2. Klik menu Extensions > Apps Script. Padam semua kod, paste kod ini:
-
-   const NAMA_SHEET = "Sheet1";
-   const HEAD = ["tugasan","nama_murid","markah","tarikh_hantar","jawapan_murid"];
-   function sheet_(){
-     const s = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(NAMA_SHEET);
-     if (s.getLastRow() === 0) s.appendRow(HEAD);
-     return s;
-   }
-   function doPost(e){
-     const d = JSON.parse(e.postData.contents);
-     sheet_().appendRow(HEAD.map(h => d[h] || ""));
-     return ContentService.createTextOutput("OK");
-   }
-   function doGet(){
-     const v = sheet_().getDataRange().getValues();
-     const h = v.shift();
-     const out = v.map(r => { const o = {}; h.forEach((k,i)=> o[k] = String(r[i])); return o; })
-                  .map(o => ({tugasan:o.tugasan, nama_murid:o.nama_murid, markah:o.markah, tarikh_hantar:o.tarikh_hantar}));
-     return ContentService.createTextOutput(JSON.stringify(out)).setMimeType(ContentService.MimeType.JSON);
-   }
-
-   (Jika nama tab sheet anda bukan "Sheet1", tukar NAMA_SHEET.)
-3. Klik Deploy > New deployment > ikon gear > pilih "Web app".
-   - Execute as: Me
-   - Who has access: Anyone
-   Klik Deploy, benarkan kebenaran (Authorize) bila diminta.
-4. Salin "Web app URL" (berakhir dengan /exec).
-5. Dalam fail ini, letak URL itu pada:  const SHEET_URL = "URL_ANDA";
-   Upload semula ke Netlify. Selesai! Nama murid terus muncul dalam Papan Markah.
-Nota: Kod di atas tidak menghantar "jawapan_murid" ke Papan Markah (hanya nama, markah, tarikh),
-      tetapi data penuh tetap ada dalam Google Sheet dan Netlify Forms untuk guru.
-=====================================================================
 -->
 </body>
 </html>
