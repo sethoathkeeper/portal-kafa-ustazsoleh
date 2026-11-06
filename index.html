@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Portal Pembelajaran KAFA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fredoka:wght@500;600;700&family=Lilita+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Fredoka:wght@500;600;700&family=Lilita+One&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#16306b;--green:#2f8f5b;--green-d:#1f6b42;--yellow:#ffd95a;--pink:#ffc2dc;--pink-d:#e0679f;--blue:#cfe6ff;--blue-d:#3b82d6;--ok:#1f9d55;--okbg:#d6f5e1;--bad:#d63a3a;--badbg:#ffdede;--ink:#1d2433;--line:#bcd3ee;
---night:#070b24;--night2:#141a4a;--neon:#39ff6a;--hot:#ff5a6e;--game:'Lilita One','Fredoka',system-ui,sans-serif}
+--night:#070b24;--night2:#141a4a;--neon:#39ff6a;--hot:#ff5a6e;--game:'Lilita One','Fredoka',system-ui,sans-serif;
+--jawi:'Scheherazade New','Noto Naskh Arabic','Amiri','Geeza Pro','Traditional Arabic','Arial',serif}
 *{box-sizing:border-box}html,body{margin:0}
 body{font-family:'Fredoka',system-ui,sans-serif;font-weight:600;font-size:1.08rem;color:var(--ink);min-height:100vh;
 background:radial-gradient(ellipse at 50% -10%,#2a2f86 0%,var(--night2) 40%,var(--night) 100%) fixed;background-color:var(--night);padding:env(safe-area-inset-top,0) 0 40px;overflow-x:hidden}
@@ -40,8 +41,8 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
 @media(prefers-reduced-motion:reduce){.star,.blk,.dbtn.boing{animation:none!important}}
 
 /* ---------- Tajuk ---------- */
-.hero{display:flex;align-items:center;gap:14px;margin:10px 0 20px}
-.hero svg{flex:none;width:90px;height:auto;filter:drop-shadow(0 0 14px rgba(120,160,255,.6))}
+.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;margin:10px 0 20px}
+.hero svg{flex:none;width:84px;height:auto;filter:drop-shadow(0 0 14px rgba(120,160,255,.6))}
 .hero h1{font-size:clamp(2rem,7vw,3.4rem);line-height:1.02;color:#ffe14d;
  text-shadow:0 3px 0 #b8560f,0 6px 0 #5a1f00,0 0 22px rgba(255,200,60,.55);-webkit-text-stroke:1px #5a1f00}
 .hero .oleh{font-family:var(--game);font-style:normal;font-weight:400;font-size:clamp(1.25rem,4.2vw,1.9rem);line-height:1.1;letter-spacing:.08em;color:#fff;margin:8px 0 0;text-shadow:0 3px 0 #1b1f5e,0 0 14px rgba(140,170,255,.8)}
@@ -89,7 +90,8 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
 .tab.on{background:#ffd400;color:#2a1a00}
 .notice{background:#fff6c7;border:3px solid #000;border-radius:16px;padding:10px 14px;font-family:var(--game);font-size:1.2rem;text-align:center;color:#6b4500;margin-bottom:14px}
 .notice.closed{background:var(--badbg);color:var(--bad)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:stretch}
+@media(max-width:339px){.grid{grid-template-columns:minmax(0,1fr)}}
 .card{background:#fff;border:4px solid #000;border-radius:20px;padding:16px;box-shadow:0 0 0 3px #1fa2ff,0 8px 0 #000;display:flex;flex-direction:column;gap:8px}
 .card h3{font-size:1.3rem;line-height:1.2}
 .tag{align-self:flex-start;background:#ffd400;color:#2a1a00;font-weight:700;border:2px solid #000;border-radius:99px;padding:3px 12px;font-size:.9rem}
@@ -106,18 +108,18 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
 .q{background:#fff;border:4px solid #000;border-radius:18px;padding:12px;margin-bottom:14px}
 .q.ok{box-shadow:0 0 0 3px var(--ok)}.q.no{box-shadow:0 0 0 3px var(--bad)}
 .qh{display:flex;gap:10px;align-items:center}
-.no{font-family:var(--game);color:#2a1a00;background:#ffd400;border:2px solid #000;border-radius:50%;width:36px;height:36px;display:grid;place-items:center;flex:none}
-.line{flex:1;direction:rtl;text-align:right;font-family:Amiri,'Scheherazade New',serif;font-size:1.9rem;line-height:2.1}
+.qno{font-family:var(--game);color:#2a1a00;background:#ffd400;border:2px solid #000;border-radius:50%;width:36px;height:36px;display:grid;place-items:center;flex:none}
+.line{flex:1;direction:rtl;text-align:right;font-family:var(--jawi);font-size:2.1rem;line-height:2.1;letter-spacing:0}
 .res{font-size:1.6rem;flex:none}
 .blank{display:inline-block;min-width:96px;min-height:46px;vertical-align:middle;margin:0 4px;padding:0 10px;text-align:center;line-height:1.7;background:var(--blue);border:3px dashed var(--blue-d);border-radius:12px;color:var(--navy)}
 .blank.f{border-style:solid;background:#e9f3ff}.blank.ok{background:var(--okbg);border:3px solid var(--ok)}.blank.no{background:var(--badbg);border:3px solid var(--bad)}
 .opts{display:grid;gap:10px;margin-top:10px}
-.opt{font-family:Amiri,'Scheherazade New',serif;font-size:2rem;line-height:1.5;min-height:62px;background:var(--pink);color:var(--navy);border:4px solid #000;border-radius:16px;padding:4px 14px;box-shadow:0 4px 0 #000}
+.opt{font-family:var(--jawi);font-size:2rem;line-height:1.7;letter-spacing:0;min-height:62px;background:var(--pink);color:var(--navy);border:4px solid #000;border-radius:16px;padding:4px 14px;box-shadow:0 4px 0 #000}
 .opt:active{transform:translateY(3px);box-shadow:0 1px 0 #000}
 .opt.pick{background:#ffd400;transform:scale(1.02)}
 .opt.ok{background:var(--okbg);border-color:var(--ok)}.opt.no{background:var(--badbg);border-color:var(--bad)}
 .fix{display:block;font-weight:700;color:var(--ok);margin-top:8px}
-.fix span{font-family:Amiri,serif;font-size:1.5rem}
+.fix bdi{font-family:var(--jawi);font-size:1.6rem}
 .actions{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
 .score{text-align:center;background:#fff;border:4px solid #000;border-radius:22px;padding:16px;margin:14px 0;box-shadow:0 0 0 3px var(--neon),0 8px 0 #000;font-weight:700}
 .score .big{font-family:var(--game);font-size:3.4rem;color:var(--green-d);line-height:1}
@@ -151,6 +153,46 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
 .mbox .nota{margin:12px 0 0;color:#cfe6ff;font-size:.95rem;font-weight:600}
 .mbox .tutup{position:absolute;z-index:2;top:8px;right:10px;width:44px;height:44px;border:3px solid #000;border-radius:12px;background:#fff;color:#141a4a;font-family:var(--game);font-size:1.3rem;box-shadow:0 3px 0 #000;padding:0}
 @media(prefers-reduced-motion:reduce){.mbox{animation:none}}
+.jawi{font-family:var(--jawi);direction:rtl;letter-spacing:0;text-transform:none;font-weight:700}
+.title.jawi{font-size:clamp(2rem,7vw,2.8rem);line-height:1.5}
+.q.rtl .qh{direction:rtl}
+.q.rtl .fix{text-align:right}
+
+/* ---------- Kad tugasan: sama tinggi, sama lebar, kandungan di tengah ---------- */
+.card{align-items:center;text-align:center;gap:10px;padding:14px 10px}
+.card .tag{align-self:center;border-radius:14px;line-height:1.25;padding:4px 12px;font-size:.85rem;min-width:70%}
+.card .tag small{display:block;font-size:.8rem;font-weight:600}
+.card h3{margin:0}
+.card h3.jawi{font-size:2rem;line-height:1.5}
+.card .due{font-size:.95rem;line-height:1.3}
+.card .btn{width:100%;margin-top:auto;padding:12px 8px;font-size:1.1rem}
+
+/* ---------- Bar Tugasan + Tukar Tahun (sama lebar dengan 2 tab di atas) ---------- */
+.homebar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:62px;padding:8px 10px 8px 14px;margin-bottom:16px;
+ background:linear-gradient(180deg,#1d2366,#10144a);border:3px solid #000;border-radius:14px;box-shadow:0 4px 0 #000}
+.homebar .title{margin:0;min-width:0;white-space:nowrap;font-size:clamp(1rem,4.6vw,1.7rem);line-height:1.1}
+.homebar .btn{flex:none;min-height:46px;padding:8px 10px;font-size:.95rem;white-space:nowrap}
+
+/* ---------- Papan Markah ---------- */
+.btitle{color:#fff;text-shadow:0 3px 0 #000;text-align:center;margin:18px 0 8px;font-size:1.4rem}
+.btitle.jawi{font-size:2.1rem;line-height:1.5}
+.q.padan{padding:12px 8px}
+.ptajuk{font-family:var(--jawi);font-weight:700;font-size:1.55rem;line-height:1.7;text-align:center;direction:rtl;color:var(--navy);margin:0 0 10px;letter-spacing:0}
+.pgrid{display:grid;grid-template-columns:minmax(0,36fr) minmax(0,64fr);gap:8px;direction:ltr;align-items:start}   /* KIRI = jenis baris, KANAN = huruf */
+.pkiri,.pkanan{display:grid;gap:8px}
+.pjenis{direction:rtl;text-align:center;background:var(--blue);border:3px solid var(--blue-d);border-radius:12px;padding:6px 4px;font-family:var(--jawi);line-height:1.5;letter-spacing:0}
+.pjenis b{display:block;font-size:1.7rem;color:var(--navy);font-weight:700}
+.pjenis span{display:block;font-size:1.15rem;color:var(--ink);font-weight:600}
+.prow{direction:rtl;display:grid;grid-template-columns:auto auto minmax(0,1fr) 22px;gap:6px;align-items:center;border:2px solid var(--line);border-radius:12px;padding:6px}
+.prow .qno{width:28px;height:28px;font-size:.9rem}
+.phuruf{font-family:var(--jawi);font-size:2.3rem;line-height:1.6;min-width:36px;text-align:center;color:var(--navy);letter-spacing:0}
+.psel{width:100%;min-width:0;height:52px;font-family:var(--jawi);font-size:1.3rem;font-weight:700;letter-spacing:0;direction:rtl;text-align:center;text-align-last:center;
+ color:var(--navy);background:var(--pink);border:4px solid #000;border-radius:14px;padding:0 2px;box-shadow:0 4px 0 #000}
+.psel.f{background:#ffd400}.psel.ok{background:var(--okbg);border-color:var(--ok);box-shadow:0 4px 0 var(--ok)}.psel.no{background:var(--badbg);border-color:var(--bad);box-shadow:0 4px 0 var(--bad)}
+.psel:disabled{opacity:1;color:var(--navy)}
+.pres{font-size:1.2rem;text-align:center}
+.pfix{grid-column:1/-1;direction:ltr;text-align:center;font-weight:700;font-size:.95rem;color:var(--ok)}
+.pfix bdi{font-family:var(--jawi);font-size:1.4rem}
 .hide{display:none!important}
 </style>
 </head>
@@ -186,7 +228,7 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
 
 <!-- ===== TAB TUGASAN: SENARAI ===== -->
 <section id="home">
-  <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px">
+  <div class="homebar">
     <h2 class="title" id="homeTitle"></h2>
     <button class="btn ghost" id="changeBtn">🔄 Tukar Tahun</button>
   </div>
@@ -240,7 +282,7 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
   <div class="sub" id="bSub"></div>
   <button class="btn alt" id="refBtn" style="margin-bottom:12px">🔄 Refresh / Lihat Markah Terkini</button>
   <div class="err" id="bErr"></div>
-  <table class="tbl"><thead><tr><th>No.</th><th>Nama</th><th id="thMarkah">Markah</th><th>Tarikh</th></tr></thead><tbody id="bBody"></tbody></table>
+  <div id="bTables"></div>
 </section>
 </div>
 
@@ -274,6 +316,13 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
   </div>
 </div>
 
+<!-- ===== HANTAR MARKAH: FORM + IFRAME tersembunyi (bukan fetch, jadi tiada sekatan CORS) =====
+     Borang ini dihantar ke Google Apps Script dan jawapannya dimuatkan dalam iframe, jadi halaman portal tidak berpindah. -->
+<iframe id="hantarFrame" name="hantarFrame" title="Hantar markah" tabindex="-1" aria-hidden="true" style="display:none;width:0;height:0;border:0"></iframe>
+<form id="hantarForm" method="POST" target="hantarFrame" enctype="application/x-www-form-urlencoded" style="display:none" aria-hidden="true">
+  <input type="hidden" name="nama"><input type="hidden" name="tahun"><input type="hidden" name="tugasan"><input type="hidden" name="markah"><input type="hidden" name="tarikh">
+</form>
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="boy" viewBox="0 0 100 110">
     <ellipse cx="50" cy="104" rx="42" ry="5" fill="#2f8f5b" opacity=".35"/>
@@ -296,14 +345,15 @@ background:var(--c,#7a4b2a);box-shadow:inset -6px -6px 0 rgba(0,0,0,.28),inset 6
 
 /* =====================================================================
    HANTAR MARKAH KE USTAZ (Google Apps Script, tiada pelayan lain, sesuai untuk GitHub Pages)
-   Bila murid tekan butang hijau dalam popup, data JSON dihantar guna fetch POST ke URL di bawah:
-     { "nama": "Ali", "tahun": "Tahun 1", "kod": "KAFA1", "markah": 6 }
-   Tahun, Kod dan Markah dikira oleh sistem (murid tak boleh ubah dalam popup). Murid hanya taip Nama.
-   NOTA: mode 'no-cors' tidak membenarkan pelayar membaca jawapan Apps Script. "Berjaya" bermaksud permintaan
-   sampai keluar tanpa ralat rangkaian; "Gagal" bermaksud tiada internet atau tamat masa (15 saat).
+   Bila murid tekan butang hijau dalam popup, data dihantar guna FORM + IFRAME tersembunyi (BUKAN fetch, supaya tiada sekatan CORS)
+   dengan POST (form-urlencoded) ke URL di bawah:
+     nama, tahun ("Tahun 1"), tugasan, markah (nombor sahaja, cth 6), tarikh
+   Tahun, Tugasan dan Markah dikira oleh sistem (murid tak boleh ubah dalam popup). Murid hanya taip Nama.
+   NOTA: pelayar tidak boleh membaca jawapan Apps Script dalam iframe (lain domain). "Berjaya" bermaksud borang sudah dihantar
+   dan iframe selesai dimuatkan; "Gagal" bermaksud tiada internet atau tamat masa (20 saat).
    ===================================================================== */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw7vXQm5rnKtHfQv2R4AQmPj4gPhW6wMbEqtnmPdQaeMI93i_IXD7ZqVxM9YN2-iHCj/exec";
-let hasil=null, terhantar=false, sedangHantar=false;   // hasil = {tahun,kod,markah,jumlah} dikunci semasa Semak
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw0nZmP7YkZ8XMHauxfnLKT9yWZ_uFoLvCZOym3kKJACBJWUiRDFjf-5OETK283IDrc/exec";
+let hasil=null, terhantar=false, sedangHantar=false;   // hasil = {tahun,kod,tugasan,markah,jumlah} dikunci semasa Semak
 
 // KOD TAHUN: ubah di sini jika cikgu mahu tukar kod. (Nota: kod boleh dilihat oleh sesiapa yang tahu "View Source",
 // jadi ia sesuai untuk menghalang salah masuk, bukan keselamatan tinggi.)
@@ -313,30 +363,58 @@ const CODES = { 1:"KAFA1", 2:"KAFA2", 3:"KAFA3", 4:"KAFA4", 5:"KAFA5", 6:"KAFA6"
    (template penuh ada di komen HTML paling bawah). */
 const tasks = [
   {
-    id: "al-fatihah",
+    id: "tilawah-t1",
     darjah: 1,
-    title: "Amali Solat Tahun 1 - Bahagian B: Bacaan dan Perlakuan Dalam Solat",
-    subtitle: "Lengkapkan bacaan Surah alFatihah yang berikut (7 Markah)",
-    subject: "Amali Solat",
-    due: "6 November 2026",
-    closeAt: "2026-11-06T00:00:00+08:00",   // Tugasan ditutup bermula masa ini = 6 Nov 2026, 12:00 tengah malam (waktu Malaysia)
-    // Guna ___ untuk tempat kosong. answer mesti sama tepat dengan salah satu options.
+    jawi: true,        // true = tajuk, soalan & pilihan dalam Jawi (kanan ke kiri)
+    kocok: false,      // false = pilihan kekal ikut susunan di bawah. Buang baris ini jika mahu dikocok
+    buka: true,        // true = BUKA, false = TUTUP
+    title: "تلاوة القرآن",
+    subtitle: "TILAWAH AL-QURAN TAHUN 1 (10 Markah)",
+    subject: "Tilawah Al-Quran",
+    // Soalan jenis SUAIKAN (matching): bahagian KIRI = rujukan jenis baris, bahagian KANAN = huruf + dropdown pilih.
+    // Soalan dengan jenis:"padan" yang berturutan dipaparkan sebagai satu aktiviti. 1 huruf = 1 markah.
+    padan: {
+      tajuk: "سوايکن حروف٢ يڠ برباريس مڠيکوت باريس يڠ بتول",
+      kiri: [
+        { nama:"فتحه", ket:"باريس اتس" },
+        { nama:"کسره", ket:"باريس باوه" },
+        { nama:"ضمه",  ket:"باريس دڤن" }
+      ]
+    },
     questions: [
-      { text:"بِسْمِ اللَّهِ ___ الرَّحِيمِ", options:["الرَّحْمَنِ","الْعَالَمِينَ","يَوْمِ"], answer:"الرَّحْمَنِ" },
-      { text:"الْحَمْدُ لِلَّهِ رَبِّ ___", options:["الْعَالَمِينَ","نَعْبُدُ","الْمَغْضُوبِ"], answer:"الْعَالَمِينَ" },
-      { text:"الرَّحْمَنِ ___", options:["الرَّحِيمِ","الْمُسْتَقِيمَ","يَوْمِ"], answer:"الرَّحِيمِ" },
-      { text:"مَلِكِ ___ الدِّينِ", options:["يَوْمِ","نَعْبُدُ","الْعَالَمِينَ"], answer:"يَوْمِ" },
-      { text:"إِيَّاكَ ___ وَإِيَّاكَ نَسْتَعِينُ", options:["نَعْبُدُ","الرَّحِيمِ","الْمُسْتَقِيمَ"], answer:"نَعْبُدُ" },
-      { text:"اهْدِنَا الصِّرَاطَ ___", options:["الْمُسْتَقِيمَ","الْمَغْضُوبِ","الرَّحْمَنِ"], answer:"الْمُسْتَقِيمَ" },
-      { text:"صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ___ عَلَيْهِمْ وَلَا الضَّالِّينَ", options:["الْمَغْضُوبِ","يَوْمِ","الْعَالَمِينَ"], answer:"الْمَغْضُوبِ" }
-    ],
-    audio: {
-      src:    "https://server12.mp3quran.net/maher/001.mp3",
-      backup: "https://server8.mp3quran.net/afs/001.mp3",
-      // Link tambahan (dicuba mengikut turutan jika yang di atas gagal). Boleh tambah/buang sendiri.
-      more: ["https://download.quranicaudio.com/quran/maher_almu3aiqly/year1440/001.mp3",
-             "https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/1.mp3"]
-    }
+      { text:"اڤاکه مقصود سوره الفاتحة؟", options:["ڤمبوکاءن","ڤنوتوڤ","ڤرتڠاهن"], answer:"ڤمبوکاءن" },
+      { text:"سوره الفاتحة مڠاندوڠي ___ ايت.", options:["٦","٧","٨"], answer:"٧" },
+      { text:"الناس برمقصود ___.", options:["ملائکة","مأنسي","شيطان"], answer:"مأنسي" },
+      { text:"سوره الناس ترماسوق دالم سوره ___.", options:["مصرية","مدنية","مكية"], answer:"مكية" },
+      { text:"کيت برليندوڠ هاڽ کڤد ___.", options:["الله","مأنسي","ملائکة"], answer:"الله" },
+      { jenis:"padan", text:"تَ", options:["فتحه","کسره","ضمه"], answer:"فتحه" },
+      { jenis:"padan", text:"رِ", options:["فتحه","کسره","ضمه"], answer:"کسره" },
+      { jenis:"padan", text:"سُ", options:["فتحه","کسره","ضمه"], answer:"ضمه" },
+      { jenis:"padan", text:"عَ", options:["فتحه","کسره","ضمه"], answer:"فتحه" },
+      { jenis:"padan", text:"فِ", options:["فتحه","کسره","ضمه"], answer:"کسره" }
+    ]
+  },
+  {
+    id: "adab-t1",
+    darjah: 1,
+    jawi: true,
+    kocok: false,
+    buka: true,
+    title: "ادب",
+    subtitle: "ADAB TAHUN 1 (10 Markah)",
+    subject: "Adab",
+    questions: [
+      { text:"حکوم برادب دڠن الله اداله", options:["سونت","واجب","هاروس"], answer:"واجب" },
+      { text:"کيت هندقله ___ سݢالا لارڠن الله.", options:["ملقساناکن","منيڠݢلکن","مماتوهي"], answer:"منيڠݢلکن" },
+      { text:"کيت هندقله سنتياس ___ ايبو باڤ.", options:["مڠهينا","مڠحرمتي","مموچي"], answer:"مڠحرمتي" },
+      { text:"کيت هندقله ___ کڤد ايبو باڤ.", options:["سايڠ","بنچي","ماره"], answer:"سايڠ" },
+      { text:"اسلام مڽوروه اومتڽ تاکوت اکن ___ الله.", options:["سوروهن","نعمة","عذاب"], answer:"عذاب" },
+      { text:"برچاکڤ بوهوڠ اداله", options:["برادب دڠن الله","تيدق برادب دڠن الله"], answer:"تيدق برادب دڠن الله" },
+      { text:"بردعاء کڤد الله اداله", options:["برادب دڠن الله","تيدق برادب دڠن الله"], answer:"برادب دڠن الله" },
+      { text:"مالس بلاجر اداله", options:["برادب دڠن الله","تيدق برادب دڠن الله"], answer:"تيدق برادب دڠن الله" },
+      { text:"برذکير اداله", options:["برادب دڠن الله","تيدق برادب دڠن الله"], answer:"برادب دڠن الله" },
+      { text:"ممباچ القرآن اداله", options:["برادب دڠن الله","تيدق برادب دڠن الله"], answer:"برادب دڠن الله" }
+    ]
   },
   {
     id: "darjah2-akan-datang", darjah: 2, soon: true,
@@ -363,7 +441,7 @@ const tasks = [
 
 /* ----------------------- Kod sistem (tak perlu ubah) ----------------------- */
 const $ = id => document.getElementById(id);
-const isClosed = t => !t.soon && t.closeAt && Date.now() >= new Date(t.closeAt).getTime();
+const isClosed = t => !!(!t.soon && (t.buka===false || (t.closeAt && Date.now() >= new Date(t.closeAt).getTime())));   // mesti benar/palsu sahaja (bukan undefined)
 let dj=null, pend=null, cur=null, picks=[], opts=[], checked=false, lastRec=null;
 
 function show(p){
@@ -396,8 +474,9 @@ function renderHome(){
   $('homeTitle').textContent='Tugasan Tahun '+dj;
   $('taskGrid').innerHTML=tasks.map((t,i)=>({t,i})).filter(x=>x.t.darjah===dj).map(({t,i})=>{
     const c=isClosed(t), soon=t.soon;
-    return `<div class="card"><span class="tag">${t.subject} · Tahun ${t.darjah}</span><h3>${t.title}</h3>
-    <div class="due">${soon?'🕐 Cikgu akan letak tugasan di sini':c?'🔒 Tugasan Telah Ditutup':'📅 Sila hantar sebelum '+t.due}</div>
+    const status=soon?'🕐 Cikgu akan letak tugasan di sini':c?'🔒 Tugasan Telah Ditutup':(t.due?'📅 Sila hantar sebelum '+t.due:'🟢 Status: BUKA');
+    return `<div class="card"><span class="tag">${t.subject}<small>Tahun ${t.darjah}</small></span><h3${t.jawi?' class="jawi" dir="rtl"':''}>${t.title}</h3>
+    <div class="due">${status}</div>
     <button class="btn" data-i="${i}" ${(c||soon)?'disabled':''}>${soon?'Akan Datang':c?'Telah Ditutup':'Mula Jawab'}</button></div>`;
   }).join('');
   document.querySelectorAll('#taskGrid .btn').forEach(b=>b.onclick=()=>openTask(+b.dataset.i));
@@ -406,7 +485,8 @@ function renderHome(){
 function openTask(i){
   cur=tasks[i]; const c=isClosed(cur);
   $('kelasTag').textContent='Tahun '+dj; $('tTitle').textContent=cur.title; $('tSub').textContent=cur.subtitle;
-  $('notice').textContent = c ? 'Tugasan Telah Ditutup' : 'Sila hantar sebelum '+cur.due;
+  $('tTitle').classList.toggle('jawi',!!cur.jawi); $('tTitle').setAttribute('dir',cur.jawi?'rtl':'ltr');
+  $('notice').textContent = c ? 'Tugasan Telah Ditutup' : (cur.due ? 'Sila hantar sebelum '+cur.due : 'Status: BUKA ✅ Jawab sekarang!');
   $('notice').classList.toggle('closed',c);
   $('who').classList.toggle('hide',c); $('work').classList.add('hide'); $('whoErr').textContent='';
   show('task');
@@ -420,22 +500,42 @@ $('startBtn').onclick=()=>{
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 function reset(){
   hasil=null; terhantar=false; sedangHantar=false;
-  checked=false; picks=cur.questions.map(()=>null); opts=cur.questions.map(q=>shuffle(q.options));
+  checked=false; picks=cur.questions.map(()=>null); opts=cur.questions.map(q=>cur.kocok===false?q.options.slice():shuffle(q.options));
   ['score','audioBox','resendBtn','boardBtn'].forEach(x=>$(x).classList.add('hide'));
   $('checkBtn').disabled=false; $('checkErr').textContent=''; draw();
 }
 
 function draw(){
+  const rtl=!!cur.jawi;
+  const pIdx=cur.questions.map((q,n)=>q.jenis==='padan'?n:-1).filter(n=>n>=0), pFirst=pIdx[0];
   $('qs').innerHTML=cur.questions.map((q,n)=>{
-    const p=picks[n], ok=checked&&p===q.answer, [a,b]=q.text.split('___');
+    if(q.jenis==='padan') return n===pFirst?padanHTML(pIdx):'';   // kumpulan suaikan dipaparkan sekali sahaja
+    const p=picks[n], ok=checked&&p===q.answer, hasBlank=q.text.includes('___'), [a,b]=q.text.split('___');
     const cls=checked?(ok?'ok':'no'):(p?'f':'');
-    const fix=checked&&!ok?`<span class="fix">Jawapan betul: <span>${q.answer}</span></span>`:'';
-    return `<div class="q ${checked?(ok?'ok':'no'):''}"><div class="qh"><div class="no">${n+1}</div>
-      <div class="line">${a}<span class="blank ${cls}">${p||'&nbsp;'}</span>${b||''}</div><div class="res">${checked?(ok?'✅':'❌'):''}</div></div>
-      <div class="opts">${opts[n].map((o,k)=>{let c=p===o?'pick':'';if(checked){if(o===q.answer)c='ok';else if(p===o)c='no';}
+    const fix=checked&&!ok?`<span class="fix" dir="ltr">Jawapan betul: <bdi dir="rtl">${q.answer}</bdi></span>`:'';
+    const line=hasBlank?`${a}<span class="blank ${cls}">${p||'&nbsp;'}</span>${b||''}`:q.text;   // tempat kosong hanya jika soalan ada ___
+    return `<div class="q ${rtl?'rtl ':''}${checked?(ok?'ok':'no'):''}"><div class="qh"><div class="qno">${n+1}</div>
+      <div class="line"${rtl?' dir="rtl"':''}>${line}</div><div class="res">${checked?(ok?'✅':'❌'):''}</div></div>
+      <div class="opts"${rtl?' dir="rtl"':''}>${opts[n].map((o,k)=>{let c=p===o?'pick':'';if(checked){if(o===q.answer)c='ok';else if(p===o)c='no';}
         return `<button class="opt ${c}" data-n="${n}" data-k="${k}" ${checked?'disabled':''}>${o}</button>`}).join('')}</div>${fix}</div>`;
   }).join('');
   document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(checked)return;picks[+b.dataset.n]=opts[+b.dataset.n][+b.dataset.k];draw();});
+  document.querySelectorAll('.psel').forEach(sel=>sel.onchange=()=>{if(checked)return;picks[+sel.dataset.n]=sel.value||null;sel.classList.add('f');});
+}
+
+/* Aktiviti SUAIKAN: kiri = jenis baris (rujukan), kanan = huruf berbaris + dropdown */
+function padanHTML(idx){
+  const m=cur.padan||{kiri:[]};
+  const kiri=m.kiri.map(k=>`<div class="pjenis"><b>${k.nama}</b><span>${k.ket}</span></div>`).join('');
+  const kanan=idx.map(n=>{
+    const q=cur.questions[n], p=picks[n], ok=checked&&p===q.answer;
+    const cls=checked?(ok?'ok':'no'):(p?'f':'');
+    const sel=`<select class="psel ${cls}" data-n="${n}" ${checked?'disabled':''} aria-label="Pilih baris untuk soalan ${n+1}">
+      <option value="" disabled ${p?'':'selected'}>؟</option>${q.options.map(o=>`<option value="${o}" ${p===o?'selected':''}>${o}</option>`).join('')}</select>`;
+    const fix=checked&&!ok?`<div class="pfix">Jawapan betul: <bdi dir="rtl">${q.answer}</bdi></div>`:'';
+    return `<div class="prow"><div class="qno">${n+1}</div><div class="phuruf">${q.text}</div>${sel}<div class="pres">${checked?(ok?'✅':'❌'):''}</div>${fix}</div>`;
+  }).join('');
+  return `<div class="q padan rtl"><div class="ptajuk" dir="rtl">${m.tajuk||''}</div><div class="pgrid"><div class="pkiri">${kiri}</div><div class="pkanan">${kanan}</div></div></div>`;
 }
 
 $('checkBtn').onclick=()=>{
@@ -450,7 +550,7 @@ $('checkBtn').onclick=()=>{
   sc.scrollIntoView({behavior:'smooth',block:'center'});
   lastRec={tugasan:cur.id,nama_murid:$('nama').value.trim(),markah:s+'/'+tot,tarikh_hantar:new Date().toLocaleString('ms-MY'),
     jawapan_murid:picks.map((p,n)=>(n+1)+':'+p).join(' | ')};
-  hasil={tahun:'Tahun '+dj,kod:CODES[dj],markah:s,jumlah:tot}; terhantar=false;
+  hasil={tahun:'Tahun '+dj,kod:CODES[dj],tugasan:cur.subject,markah:s,jumlah:tot}; terhantar=false;
   saveLocal(); $('resendBtn').classList.remove('hide'); if(cur.audio) startAudio();
   setTimeout(()=>openModal(s,tot,msg),600);
 };
@@ -479,18 +579,33 @@ function openModal(s,tot,msg){
 }
 function closeModal(){$('modal').classList.add('hide');}
 
-async function hantarMarkah(){
+// Hantar markah ke Google Apps Script guna FORM + IFRAME (bukan fetch).
+// Selesai (resolve) bila iframe habis dimuatkan; ralat (reject) jika tamat masa 20 saat.
+function hantarMarkah(nama, tahun, tugasan, markah){
+  return new Promise((selesai, tolak)=>{
+    const form=$('hantarForm'), frame=$('hantarFrame'); let tamat=false;
+    const timer=setTimeout(()=>{ if(tamat) return; tamat=true; frame.onload=null; tolak(new Error('tamat masa')); },20000);
+    frame.onload=()=>{ if(tamat) return; tamat=true; clearTimeout(timer); frame.onload=null; selesai(); };
+    form.action=SCRIPT_URL;
+    form.elements.nama.value=nama;
+    form.elements.tahun.value=tahun;
+    form.elements.tugasan.value=tugasan;
+    form.elements.markah.value=markah;
+    form.elements.tarikh.value=new Date().toLocaleString("en-MY");
+    try{ form.submit(); }catch(e){ tamat=true; clearTimeout(timer); frame.onload=null; tolak(e); }
+  });
+}
+
+// Butang HANTAR MARKAH KE USTAZ dalam popup: urus status MENGHANTAR / berjaya / gagal
+async function klikHantar(){
   if(sedangHantar||terhantar||!hasil) return;
   const nama=$('mNamaIn').value.trim();
   if(!nama){$('mErr').textContent='Sila taip nama kamu dahulu ya 😊';$('mNamaIn').focus();return;}
   sedangHantar=true; $('mErr').textContent='';
   const btn=$('mHantar'); btn.disabled=true; btn.textContent='MENGHANTAR...';
-  const ctrl=new AbortController(), timer=setTimeout(()=>ctrl.abort(),15000);
   try{
     if(navigator.onLine===false) throw new Error('luar talian');
-    await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',signal:ctrl.signal,
-      headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body:JSON.stringify({nama:nama,tahun:hasil.tahun,kod:hasil.kod,markah:hasil.markah})});
+    await hantarMarkah(nama,hasil.tahun,hasil.tugasan,hasil.markah);
     terhantar=true; $('resendBtn').classList.add('hide');
     try{ // kemas kini nama dalam Papan Markah setempat supaya sama
       lastRec.nama_murid=nama;
@@ -500,13 +615,13 @@ async function hantarMarkah(){
     tunjukPaparan(true); $('mUlang').focus();
   }catch(e){
     console.error('Gagal hantar markah:',e);
-    $('mErr').textContent='Gagal hantar, cuba lagi';
+    $('mErr').textContent='Gagal hantar, cuba lagi'+(e&&e.message?' ('+e.message+')':'');
   }finally{
-    clearTimeout(timer); sedangHantar=false; btn.disabled=false; btn.textContent='HANTAR MARKAH KE USTAZ 📤';
+    sedangHantar=false; btn.disabled=false; btn.textContent='HANTAR MARKAH KE USTAZ 📤';
   }
 }
-$('mHantar').onclick=hantarMarkah;
-$('mNamaIn').onkeydown=e=>{if(e.key==='Enter')hantarMarkah();};
+$('mHantar').onclick=klikHantar;
+$('mNamaIn').onkeydown=e=>{if(e.key==='Enter')klikHantar();};
 const ulang=()=>{closeModal();stopAudio();reset();window.scrollTo(0,0);};
 $('mLagi').onclick=ulang; $('mUlang').onclick=ulang;
 $('mMenu').onclick=()=>{closeModal();goHome();};
@@ -538,20 +653,22 @@ $('playBtn').onclick=()=>{const a=$('aud');if(!a.src||a.dataset.fail){startAudio
 /* ---------------- Papan Markah ---------------- */
 async function loadBoard(){
   if(dj===null){show('pilih');return;}
-  const t=(cur&&cur.darjah===dj&&!cur.soon)?cur:tasks.find(x=>x.darjah===dj&&!x.soon);
-  $('bErr').textContent=''; $('bBody').innerHTML='';
-  if(!t){$('bSub').textContent='Tahun '+dj;$('thMarkah').textContent='Markah';$('bBody').innerHTML='<tr><td colspan="4">Belum ada tugasan untuk Tahun '+dj+'. Tunggu cikgu ya! 🌟</td></tr>';return;}
-  $('bSub').textContent='Tahun '+dj+' · '+t.title; $('thMarkah').textContent='Markah /'+t.questions.length;
+  $('bErr').textContent=''; $('bSub').textContent='Tahun '+dj;
+  const list=tasks.filter(x=>x.darjah===dj&&!x.soon);
+  if(!list.length){$('bTables').innerHTML='<p class="sub" style="text-align:center">Belum ada tugasan untuk Tahun '+dj+'. Tunggu cikgu ya! 🌟</p>';return;}
   let rows=[];
-  try{
-    rows=JSON.parse(localStorage.getItem('papan')||'[]');
-  }catch(e){$('bErr').textContent='Papan Markah tidak dapat dimuatkan. Tekan Refresh sekali lagi.';}
-  const best={};
-  rows.filter(r=>r.tugasan===t.id).forEach(r=>{const k=String(r.nama_murid).trim().toLowerCase(),m=parseInt(r.markah);
-    if(!best[k]||m>best[k].m)best[k]={n:r.nama_murid,m,d:r.tarikh_hantar};});
-  const list=Object.values(best).sort((a,b)=>b.m-a.m);
-  $('bBody').innerHTML=list.length?list.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(String(r.n))}</td><td>${r.m} / ${t.questions.length}</td><td>${esc(String(r.d||''))}</td></tr>`).join('')
-    :'<tr><td colspan="4">Belum ada murid menghantar. Jadilah yang pertama! 🌟</td></tr>';
+  try{ rows=JSON.parse(localStorage.getItem('papan')||'[]'); }
+  catch(e){$('bErr').textContent='Papan Markah tidak dapat dimuatkan. Tekan Refresh sekali lagi.';}
+  $('bTables').innerHTML=list.map(t=>{
+    const best={};
+    rows.filter(r=>r.tugasan===t.id).forEach(r=>{const k=String(r.nama_murid).trim().toLowerCase(),m=parseInt(r.markah);
+      if(!best[k]||m>best[k].m)best[k]={n:r.nama_murid,m,d:r.tarikh_hantar};});
+    const L=Object.values(best).sort((a,b)=>b.m-a.m);
+    const body=L.length?L.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(String(r.n))}</td><td>${r.m} / ${t.questions.length}</td><td>${esc(String(r.d||''))}</td></tr>`).join('')
+      :'<tr><td colspan="4">Belum ada murid menghantar. Jadilah yang pertama! 🌟</td></tr>';
+    return `<h3 class="btitle${t.jawi?' jawi':''}"${t.jawi?' dir="rtl"':''}>${t.title}</h3>
+      <table class="tbl"><thead><tr><th>No.</th><th>Nama</th><th>Markah /${t.questions.length}</th><th>Tarikh</th></tr></thead><tbody>${body}</tbody></table>`;
+  }).join('');
 }
 $('tabT').onclick=goHome; $('tabB').onclick=()=>{stopAudio();show('board');loadBoard();};
 $('boardBtn').onclick=$('tabB').onclick; $('refBtn').onclick=loadBoard;
@@ -577,12 +694,15 @@ CARA TAMBAH TUGASAN BARU
 
   {
     id: "id-unik",                       // huruf kecil, tiada ruang
-    darjah: 2,                           // 1 hingga 6. Tugasan hanya nampak dalam Tahun ini
-    title: "Tajuk Lembaran Kerja",
-    subtitle: "Arahan ringkas (x Markah)",
-    subject: "Nama Subjek",
-    due: "31 Disember 2026",             // teks yang dipaparkan
-    closeAt: "2026-12-31T00:00:00+08:00",// masa tugasan ditutup
+    darjah: 2,                           // 1 hingga 6 (= Tahun). Tugasan hanya nampak dalam Tahun ini
+    jawi: true,                          // true = tajuk, soalan & pilihan dalam Jawi (kanan ke kiri). Buang jika Rumi
+    kocok: false,                        // false = pilihan kekal ikut susunan. Buang baris ini jika mahu dikocok
+    buka: true,                          // true = BUKA, false = TUTUP
+    title: "تاجوق جاوي",                  // tajuk (Jawi jika jawi:true)
+    subtitle: "TAJUK RUMI (10 Markah)",
+    subject: "Nama Subjek",              // label kecil pada kad
+    // due: "31 Disember 2026",          // PILIHAN: tarikh dipaparkan. Jika tiada, kad papar "Status: BUKA"
+    // closeAt: "2026-12-31T00:00:00+08:00", // PILIHAN: tutup automatik pada masa ini
     questions: [
       { text:"ayat ___ ayat", options:["A","B","C"], answer:"A" },   // dengan tempat kosong ___
       { text:"Soalan biasa tanpa tempat kosong?", options:["A","B","C"], answer:"B" }
@@ -590,20 +710,32 @@ CARA TAMBAH TUGASAN BARU
     // audio: { src:"https://...mp3", backup:"https://...mp3" }   <- pilihan sahaja
   }
 
+SOALAN JENIS SUAIKAN (matching, dropdown): lihat tugasan "tilawah-t1" (soalan 6-10). Letak "padan:{ tajuk, kiri:[{nama,ket},...] }"
+sebelum "questions", kemudian tambah soalan berturutan { jenis:"padan", text:"huruf", options:[...], answer:"..." }. 1 soalan = 1 markah.
+
+PENTING UNTUK JAWI: copy-paste tulisan Jawi sebulat-bulatnya, jangan taip semula. Huruf khas:
+  NGA = ڠ (3 titik, BUKAN غ)    PA = ڤ (3 titik, BUKAN ف)    GA = ݢ    CA = چ    NYA = ڽ
 Nota: "answer" mesti sama tepat dengan satu pilihan dalam "options".
-Pilihan jawapan akan dikocok secara automatik setiap kali murid mula.
+Jika "kocok" tidak ditetapkan, pilihan jawapan dikocok secara automatik setiap kali murid mula.
+Untuk TUTUP tugasan: tukar buka:true kepada buka:false (atau letak "closeAt").
 Untuk MENGUBAH TARIKH TUTUP, ubah "closeAt" (dan "due").
-Papan Markah memaparkan tugasan yang baru dibuka (atau tugasan pertama yang sebenar) bagi Tahun murid itu.
+Papan Markah memaparkan satu jadual bagi setiap tugasan sebenar dalam Tahun murid itu.
 Untuk ganti "Tugasan Akan Datang": padam objek placeholder (soon:true) Tahun itu, kemudian letak tugasan sebenar.
 Kod Tahun: ubah dalam CODES di bahagian atas script.
 
 =====================================================================
 CARA TENGOK LIST NAMA & MARKAH: Google Sheet (Apps Script awak)
 =====================================================================
-1. Setiap murid yang tekan "HANTAR MARKAH KE USTAZ" menghantar JSON ke Apps Script awak:
-   { "nama": "Ali", "tahun": "Tahun 1", "kod": "KAFA1", "markah": 6 }
-2. Apps Script awak (fungsi doPost) mesti baca e.postData.contents dan JSON.parse, kemudian simpan ke Sheet.
-3. Jika tukar URL Apps Script (deploy baharu), ubah SCRIPT_URL di bahagian atas script.
+1. Setiap murid yang tekan "HANTAR MARKAH KE USTAZ" menghantar data ke Apps Script awak guna FORM + IFRAME tersembunyi (form-urlencoded):
+   nama=Ali  tahun=Tahun 1  tugasan=Tilawah Al-Quran  markah=6  tarikh=6/11/2026, 11.17 am
+2. Apps Script awak (fungsi doPost) mesti baca e.parameter (BUKAN JSON.parse), contohnya:
+     function doPost(e){
+       const p = e.parameter;
+       SpreadsheetApp.getActiveSpreadsheet().getSheets()[0].appendRow([p.tarikh, p.nama, p.tahun, p.tugasan, p.markah]);
+       return ContentService.createTextOutput("OK");
+     }
+3. Jika tukar URL Apps Script (deploy baharu), ubah SCRIPT_URL di bahagian atas script (itu satu-satunya tempat URL ditulis).
+   Apps Script mesti di-deploy sebagai Web app dengan "Who has access: Anyone", jika tidak data tidak akan diterima.
 4. Papan Markah dalam portal ini hanya demo setempat (hanya nampak pada telefon murid sendiri).
 
 -->
